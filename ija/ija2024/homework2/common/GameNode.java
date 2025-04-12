@@ -1,13 +1,17 @@
 package ija.ija2024.homework2.common;
 import ija.ija2024.tool.common.ToolField;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Observable;
+import java.util.Observer;
 public class GameNode implements ToolField {
     private Position position;
     private Side[] side;
     private NodeType type;
     private boolean powered = false;
+    private List<Observer> observers = new ArrayList<>();
     public GameNode(int row, int col, NodeType type, Side... sides){
         side = new Side[sides.length];
         this.position = new Position(row, col);
@@ -96,13 +100,18 @@ public class GameNode implements ToolField {
     @Override
     public void addObserver(Observer observer) {
         // TODO Auto-generated method stub   
+        observers.add(observer);
     }
     @Override
     public void removeObserver(Observer observer) {
         // TODO Auto-generated method stub   
+        observers.remove(observer);
     }
     @Override
     public void notifyObservers() {
-        // TODO Auto-generated method stub   
+        // TODO Auto-generated method stub
+        for (Observer observer : observers) {
+            observer.update(this, null);
+        }
     }
 }
