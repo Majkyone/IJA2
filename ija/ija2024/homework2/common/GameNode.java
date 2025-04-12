@@ -1,11 +1,11 @@
 package ija.ija2024.homework2.common;
 
 import java.util.Arrays;
-
-public class GameNode {
+public class GameNode{
     private Position position;
     private Side[] side;
     private NodeType type;
+    private boolean powered = false;
     public GameNode(int row, int col, NodeType type, Side... sides){
         side = new Side[sides.length];
         this.position = new Position(row, col);
@@ -52,6 +52,26 @@ public class GameNode {
         }
     }
     public boolean light(){
-        return true;
+        return this.powered;
+    }
+
+    public NodeType getType(){
+        return this.type;
+    }
+
+    public void setPowered(boolean powered){
+        this.powered = powered;
+    }
+
+    public Side[] getSides(){
+        return this.side;
+    }
+
+    public boolean isPowered(){
+        return this.powered;
+    }
+
+    public String toString(){
+        return String.format("{%s[%d@%d][%s]}", type.swichSideToString(), position.getRow(), position.getCol(), String.join(" ", Arrays.toString(side).replaceAll("[\\[\\] ]", "")));
     }
 }
