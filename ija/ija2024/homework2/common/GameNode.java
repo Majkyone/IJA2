@@ -51,4 +51,7 @@ public class GameNode {
             i++;
         }
     }
+    public boolean light(){
+        return true;
+    }
 }
