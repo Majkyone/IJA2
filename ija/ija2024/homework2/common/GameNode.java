@@ -1,7 +1,9 @@
 package ija.ija2024.homework2.common;
+import ija.ija2024.tool.common.ToolField;
 
 import java.util.Arrays;
-public class GameNode{
+import java.util.Observable;
+public class GameNode implements ToolField {
     private Position position;
     private Side[] side;
     private NodeType type;
@@ -22,15 +24,31 @@ public class GameNode{
     public Position getPosition(){
         return this.position;
     }
-
+    @Override
+    public boolean east(){
+        return containsConnector(Side.EAST);
+    }
+    @Override
+    public boolean west(){
+        return containsConnector(Side.WEST);
+    }
+    @Override
+    public boolean north(){
+        return containsConnector(Side.NORTH);
+    }
+    @Override
+    public boolean south(){
+        return containsConnector(Side.SOUTH);
+    }
+    @Override
     public boolean isBulb(){
         return this.type == NodeType.BULB;
     }
-
+    @Override
     public boolean isLink(){
         return this.type == NodeType.WIRE;
     }
-
+    @Override
     public boolean isPower(){
         return this.type == NodeType.SOURCE;
     }
@@ -73,5 +91,18 @@ public class GameNode{
 
     public String toString(){
         return String.format("{%s[%d@%d][%s]}", type.swichSideToString(), position.getRow(), position.getCol(), String.join(" ", Arrays.toString(side).replaceAll("[\\[\\] ]", "")));
+    }
+    //OBSERVER PART
+    @Override
+    public void addObserver(Observer observer) {
+        // TODO Auto-generated method stub   
+    }
+    @Override
+    public void removeObserver(Observer observer) {
+        // TODO Auto-generated method stub   
+    }
+    @Override
+    public void notifyObservers() {
+        // TODO Auto-generated method stub   
     }
 }
