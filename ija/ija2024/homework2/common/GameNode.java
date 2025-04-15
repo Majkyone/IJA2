@@ -1,17 +1,17 @@
 package ija.ija2024.homework2.common;
-import ija.ija2024.tool.common.ToolField;
+import ija.ija2024.tool.common.*;
+import ija.ija2024.tool.common.AbstractObservableField;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
-public class GameNode implements ToolField {
+public class GameNode extends AbstractObservableField{
     private Position position;
     private Side[] side;
     private NodeType type;
     private boolean powered = false;
-    private List<Observer> observers = new ArrayList<>();
     public GameNode(int row, int col, NodeType type, Side... sides){
         side = new Side[sides.length];
         this.position = new Position(row, col);
@@ -72,6 +72,7 @@ public class GameNode implements ToolField {
             this.side[i] = Side.values()[(changeDirection + 1) % Side.values().length];
             i++;
         }
+        notifyObservers();
     }
     public boolean light(){
         return this.powered;
@@ -83,6 +84,7 @@ public class GameNode implements ToolField {
 
     public void setPowered(boolean powered){
         this.powered = powered;
+        notifyObservers();
     }
 
     public Side[] getSides(){
@@ -96,22 +98,6 @@ public class GameNode implements ToolField {
     public String toString(){
         return String.format("{%s[%d@%d][%s]}", type.swichSideToString(), position.getRow(), position.getCol(), String.join(" ", Arrays.toString(side).replaceAll("[\\[\\] ]", "")));
     }
-    //OBSERVER PART
-    @Override
-    public void addObserver(Observer observer) {
-        // TODO Auto-generated method stub   
-        observers.add(observer);
-    }
-    @Override
-    public void removeObserver(Observer observer) {
-        // TODO Auto-generated method stub   
-        observers.remove(observer);
-    }
-    @Override
-    public void notifyObservers() {
-        // TODO Auto-generated method stub
-        for (Observer observer : observers) {
-            observer.update(this, null);
-        }
-    }
+
+    
 }

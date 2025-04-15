@@ -1,13 +1,13 @@
 package ija.ija2024.homework2.game;
 
 import java.util.Arrays;
-
 import ija.ija2024.homework2.common.GameNode;
 import ija.ija2024.homework2.common.NodeType;
 import ija.ija2024.homework2.common.Position;
 import ija.ija2024.homework2.common.Side;
+import ija.ija2024.tool.common.*;
 
-public class Game {
+public class Game implements ToolEnvironment, Observable.Observer{
     private GameNode[][] grid;
     private int rows;
     private int cols;
@@ -37,22 +37,33 @@ public class Game {
         }
     }
 
-    public int rows() {
+    @Override
+    public int rows(){
         return this.rows;
     }
 
-    public int cols() {
+    @Override
+    public int cols(){
         return this.cols;
+    }
+    @Override
+    public ToolField fieldAt(int row, int col) {
+        if (row < 1 || col < 1 || row > rows || col > cols) {
+            throw new IllegalArgumentException();
+        }
+        return grid[row][col];
     }
 
     public GameNode createBulbNode(Position p, Side sides) {
         if (chceckPosition(p)) {
             grid[p.getRow()][p.getCol()] = new GameNode(p.getRow(), p.getCol(), NodeType.BULB, sides);
+            grid[p.getRow()][p.getCol()].addObserver(this);
             return grid[p.getRow()][p.getCol()];
 
         } else {
             return null;
         }
+       
     }
 
     public GameNode createPowerNode(Position p, Side... sides) {
@@ -70,6 +81,7 @@ public class Game {
     public GameNode createLinkNode(Position p, Side... sides) {
         if (chceckPosition(p) && sides.length >= 2) {
             grid[p.getRow()][p.getCol()] = new GameNode(p.getRow(), p.getCol(), NodeType.WIRE, sides);
+            grid[p.getRow()][p.getCol()].addObserver(this);
             return grid[p.getRow()][p.getCol()];
 
         } else {
@@ -117,6 +129,14 @@ public class Game {
         }
     }
 
+    // private void addObserver(){
+    //     for (int r = 1; r <= rows; r++) {
+    //         for (int c = 1; c <= cols; c++) {
+    //             grid[r][c].addObserver(this);
+    //         }
+    //     }
+    // }
+
     private Position getNeighborPosition(Position pos, Side side) {
         int r = pos.getRow();
         int c = pos.getCol();
@@ -131,4 +151,9 @@ public class Game {
     public GameNode[][] getGame(){
         return this.grid;
     }
+    @Override
+    public void update(Observable o) {
+        init();
+    }
+
 }
