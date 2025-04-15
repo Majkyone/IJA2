@@ -5,8 +5,8 @@ public enum Side {
     public Side opposite() {
         return switch (this) {
             case NORTH -> SOUTH;
-            case SOUTH -> NORTH;
             case EAST  -> WEST;
+            case SOUTH -> NORTH;
             case WEST  -> EAST;
         };
     }

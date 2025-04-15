@@ -1,13 +1,15 @@
 package ija.ija2024.homework2.game;
 
 import java.util.Arrays;
+
+
 import ija.ija2024.homework2.common.GameNode;
 import ija.ija2024.homework2.common.NodeType;
 import ija.ija2024.homework2.common.Position;
 import ija.ija2024.homework2.common.Side;
 import ija.ija2024.tool.common.*;
 
-public class Game implements ToolEnvironment, Observable.Observer{
+public class Game implements ToolEnvironment, Observable.Observer {
     private GameNode[][] grid;
     private int rows;
     private int cols;
@@ -38,14 +40,15 @@ public class Game implements ToolEnvironment, Observable.Observer{
     }
 
     @Override
-    public int rows(){
+    public int rows() {
         return this.rows;
     }
 
     @Override
-    public int cols(){
+    public int cols() {
         return this.cols;
     }
+
     @Override
     public ToolField fieldAt(int row, int col) {
         if (row < 1 || col < 1 || row > rows || col > cols) {
@@ -63,14 +66,14 @@ public class Game implements ToolEnvironment, Observable.Observer{
         } else {
             return null;
         }
-       
+
     }
 
     public GameNode createPowerNode(Position p, Side... sides) {
         if (chceckPosition(p) && !isSource && sides.length >= 1) {
             isSource = true;
             grid[p.getRow()][p.getCol()] = new GameNode(p.getRow(), p.getCol(), NodeType.SOURCE, sides);
-            
+            grid[p.getRow()][p.getCol()].addObserver(this);
             return grid[p.getRow()][p.getCol()];
 
         } else {
@@ -99,11 +102,13 @@ public class Game implements ToolEnvironment, Observable.Observer{
     }
 
     public void init() {
+        resetAllNodesPower();
         for (int r = 1; r <= rows; r++) {
             for (int c = 1; c <= cols; c++) {
                 GameNode node = grid[r][c];
                 if (node.getType() == NodeType.SOURCE) {
                     node.setPowered(true);
+                    
                     poweredNodes(node);
                     return;
                 }
@@ -114,7 +119,7 @@ public class Game implements ToolEnvironment, Observable.Observer{
     private void poweredNodes(GameNode node) {
         for (Side side : node.getSides()) {
             Position neighborPos = getNeighborPosition(node.getPosition(), side);
-            
+
             if (!chceckPosition(neighborPos))
                 continue;
 
@@ -129,12 +134,21 @@ public class Game implements ToolEnvironment, Observable.Observer{
         }
     }
 
+    private void resetAllNodesPower() {
+        for (int r = 1; r <= rows; r++) {
+            for (int c = 1; c <= cols; c++) {
+                GameNode node = grid[r][c];
+
+                node.setPowered(false);
+            }
+        }
+    }
     // private void addObserver(){
-    //     for (int r = 1; r <= rows; r++) {
-    //         for (int c = 1; c <= cols; c++) {
-    //             grid[r][c].addObserver(this);
-    //         }
-    //     }
+    // for (int r = 1; r <= rows; r++) {
+    // for (int c = 1; c <= cols; c++) {
+    // grid[r][c].addObserver(this);
+    // }
+    // }
     // }
 
     private Position getNeighborPosition(Position pos, Side side) {
@@ -148,12 +162,14 @@ public class Game implements ToolEnvironment, Observable.Observer{
         };
     }
 
-    public GameNode[][] getGame(){
+    public GameNode[][] getGame() {
         return this.grid;
     }
+
     @Override
     public void update(Observable o) {
-        init();
+        
+       init();
     }
 
 }

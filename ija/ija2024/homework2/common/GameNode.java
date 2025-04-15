@@ -4,6 +4,7 @@ import ija.ija2024.tool.common.AbstractObservableField;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -72,6 +73,8 @@ public class GameNode extends AbstractObservableField{
             this.side[i] = Side.values()[(changeDirection + 1) % Side.values().length];
             i++;
         }
+        List<Side> order = Arrays.asList(Side.NORTH, Side.EAST, Side.SOUTH, Side.WEST);
+        Arrays.sort(this.side, Comparator.comparingInt(order::indexOf));
         notifyObservers();
     }
     public boolean light(){
@@ -84,7 +87,7 @@ public class GameNode extends AbstractObservableField{
 
     public void setPowered(boolean powered){
         this.powered = powered;
-        notifyObservers();
+        //notifyObservers();
     }
 
     public Side[] getSides(){
@@ -96,7 +99,8 @@ public class GameNode extends AbstractObservableField{
     }
 
     public String toString(){
-        return String.format("{%s[%d@%d][%s]}", type.swichSideToString(), position.getRow(), position.getCol(), String.join(" ", Arrays.toString(side).replaceAll("[\\[\\] ]", "")));
+        System.out.println(Arrays.toString(side).replace(" ", ""));
+        return String.format("{%s[%d@%d]%s}", type.swichSideToString(), position.getRow(), position.getCol(), Arrays.toString(side).replace(" ", ""));
     }
 
     
