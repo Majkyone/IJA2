@@ -87,7 +87,7 @@ public class GameNode extends AbstractObservableField{
 
     public void setPowered(boolean powered){
         this.powered = powered;
-        //notifyObservers();
+        // notifyObservers();
     }
 
     public Side[] getSides(){

@@ -102,7 +102,15 @@ public class Game implements ToolEnvironment, Observable.Observer {
     }
 
     public void init() {
+        boolean [] [] originalPower = new boolean[rows + 1][cols + 1];
+        for (int r = 1; r <= rows; r++) {
+            for (int c = 1; c <= cols; c++) {
+                GameNode node = grid[r][c];
+                originalPower[r][c] = node.isPowered();
+            }
+        }
         resetAllNodesPower();
+        
         for (int r = 1; r <= rows; r++) {
             for (int c = 1; c <= cols; c++) {
                 GameNode node = grid[r][c];
@@ -110,14 +118,26 @@ public class Game implements ToolEnvironment, Observable.Observer {
                     node.setPowered(true);
                     
                     poweredNodes(node);
-                    return;
+                    break;
                 }
+            }
+        }
+
+        for (int r = 1; r <= rows; r++) {
+            for (int c = 1; c <= cols; c++) {
+                GameNode node = grid[r][c];
+                if (originalPower[r][c] != node.isPowered()) {
+                    grid[r][c].notifyObservers();
+                } 
             }
         }
     }
 
     private void poweredNodes(GameNode node) {
         for (Side side : node.getSides()) {
+            // System.out.println("Node: " + node.getPosition().getCol() + " " + node.getPosition().getRow());
+            // System.out.println("Side: " + side);
+            // System.out.println("ISON: " + node.isPowered());
             Position neighborPos = getNeighborPosition(node.getPosition(), side);
 
             if (!chceckPosition(neighborPos))
@@ -141,6 +161,19 @@ public class Game implements ToolEnvironment, Observable.Observer {
 
                 node.setPowered(false);
             }
+        }
+    }
+
+    private void printIsOn(){
+        for (int r = 1; r <= rows; r++) {
+            for (int c = 1; c <= cols; c++) {
+                GameNode node = grid[r][c];
+                System.out.println(node.getPosition().getRow() + " " + node.getPosition().getCol() + " ");
+                System.out.println(node.getType() + " ");
+                System.out.println(node.isPowered() + " ");
+                System.out.println();
+            }
+            System.out.println();
         }
     }
     // private void addObserver(){
@@ -169,7 +202,12 @@ public class Game implements ToolEnvironment, Observable.Observer {
     @Override
     public void update(Observable o) {
         
-       init();
+       GameNode node = (GameNode) o;
+       if(node.getType() == NodeType.WIRE || node.getType() == NodeType.BULB || node.getType() == NodeType.SOURCE){
+           init();
+       }
+       printIsOn();
+       System.out.println("====================================");
     }
 
 }
