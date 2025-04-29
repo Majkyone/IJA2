@@ -135,9 +135,6 @@ public class Game implements ToolEnvironment, Observable.Observer {
 
     private void poweredNodes(GameNode node) {
         for (Side side : node.getSides()) {
-            // System.out.println("Node: " + node.getPosition().getCol() + " " + node.getPosition().getRow());
-            // System.out.println("Side: " + side);
-            // System.out.println("ISON: " + node.isPowered());
             Position neighborPos = getNeighborPosition(node.getPosition(), side);
 
             if (!chceckPosition(neighborPos))
@@ -164,26 +161,6 @@ public class Game implements ToolEnvironment, Observable.Observer {
         }
     }
 
-    private void printIsOn(){
-        for (int r = 1; r <= rows; r++) {
-            for (int c = 1; c <= cols; c++) {
-                GameNode node = grid[r][c];
-                System.out.println(node.getPosition().getRow() + " " + node.getPosition().getCol() + " ");
-                System.out.println(node.getType() + " ");
-                System.out.println(node.isPowered() + " ");
-                System.out.println();
-            }
-            System.out.println();
-        }
-    }
-    // private void addObserver(){
-    // for (int r = 1; r <= rows; r++) {
-    // for (int c = 1; c <= cols; c++) {
-    // grid[r][c].addObserver(this);
-    // }
-    // }
-    // }
-
     private Position getNeighborPosition(Position pos, Side side) {
         int r = pos.getRow();
         int c = pos.getCol();
@@ -206,8 +183,7 @@ public class Game implements ToolEnvironment, Observable.Observer {
        if(node.getType() == NodeType.WIRE || node.getType() == NodeType.BULB || node.getType() == NodeType.SOURCE){
            init();
        }
-       printIsOn();
-       System.out.println("====================================");
+
     }
 
 }

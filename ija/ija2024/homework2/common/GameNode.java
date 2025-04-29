@@ -99,7 +99,6 @@ public class GameNode extends AbstractObservableField{
     }
 
     public String toString(){
-        System.out.println(Arrays.toString(side).replace(" ", ""));
         return String.format("{%s[%d@%d]%s}", type.swichSideToString(), position.getRow(), position.getCol(), Arrays.toString(side).replace(" ", ""));
     }
 
