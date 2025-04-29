@@ -175,6 +175,19 @@ public class Game implements ToolEnvironment, Observable.Observer {
     public GameNode[][] getGame() {
         return this.grid;
     }
+    
+    public boolean someBulbsAreOn() {
+
+        for (int r = 1; r <= rows; r++) {
+            for (int c = 1; c <= cols; c++) {
+                GameNode node = grid[r][c];
+                if (node.getType() == NodeType.BULB && node.isPowered()) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
     @Override
     public void update(Observable o) {

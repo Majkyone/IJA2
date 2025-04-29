@@ -13,6 +13,7 @@ public class GameNode extends AbstractObservableField{
     private Side[] side;
     private NodeType type;
     private boolean powered = false;
+    private int numberOfTurns = 0;
     public GameNode(int row, int col, NodeType type, Side... sides){
         side = new Side[sides.length];
         this.position = new Position(row, col);
@@ -73,6 +74,7 @@ public class GameNode extends AbstractObservableField{
             this.side[i] = Side.values()[(changeDirection + 1) % Side.values().length];
             i++;
         }
+        numberOfTurns++;
         List<Side> order = Arrays.asList(Side.NORTH, Side.EAST, Side.SOUTH, Side.WEST);
         Arrays.sort(this.side, Comparator.comparingInt(order::indexOf));
         notifyObservers();
@@ -80,7 +82,9 @@ public class GameNode extends AbstractObservableField{
     public boolean light(){
         return this.powered;
     }
-
+    public int getNumberOfturns(){
+        return (this.numberOfTurns + 2) % 4;
+    }
     public NodeType getType(){
         return this.type;
     }
