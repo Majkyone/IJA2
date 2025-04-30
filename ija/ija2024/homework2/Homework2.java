@@ -1,4 +1,3 @@
-// TODO ked je node ze strany su poroti, tak staci len jedno odocenie alebo ziadne
 package ija.ija2024.homework2;
 
 import java.util.ArrayList;
@@ -24,7 +23,8 @@ import ija.ija2024.tool.EnvPresenter;
 public class Homework2 {
 
     public static void main(String... args) {
-        GameLoader loader = new GameLoader("ija/ija2024/homework2/levels/level1.txt");
+        int level = 1;
+        GameLoader loader = new GameLoader("ija/ija2024/homework2/levels/level"+ level +".txt");
         Game game = Game.create(loader.x, loader.y);
         loader.SetUpGame(game);
         game.init();
@@ -34,7 +34,7 @@ public class Homework2 {
         RandomizeGame randomGame = new RandomizeGame(game, loader);
         for (int r = 1; r <= game.rows(); r++) {
             for (int c = 1; c <= game.cols(); c++) {
-                if (game.node(new Position(r, c)).getType() == NodeType.EMPTY) {
+                if (game.node(new Position(r, c)).getType() == NodeType.EMPTY || game.node(new Position(r, c)).getNumberOfSides() == 4) {
                     System.out.print("0 "); 
                 }else{
                     System.out.print(game.node(new Position(r, c)).getNumberOfturns()+ " "); 

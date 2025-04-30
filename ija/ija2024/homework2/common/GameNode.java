@@ -66,7 +66,9 @@ public class GameNode extends AbstractObservableField{
         }
         return Arrays.asList(this.side).contains(s); 
     }
-
+    public int getNumberOfSides(){
+        return Arrays.asList(this.side).size(); 
+    }
     public void turn(){
         int i = 0;
         for(Side side : this.side){
@@ -83,7 +85,11 @@ public class GameNode extends AbstractObservableField{
         return this.powered;
     }
     public int getNumberOfturns(){
-        return (this.numberOfTurns + 2) % 4;
+        if (getNumberOfSides() == 2 && side[0].opposite() == side[1]) {
+            return this.numberOfTurns % 2;
+        }else{
+            return (this.numberOfTurns + 2) % 4;
+        }
     }
     public NodeType getType(){
         return this.type;
