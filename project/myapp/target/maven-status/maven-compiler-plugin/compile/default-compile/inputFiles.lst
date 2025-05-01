@@ -1,1 +1,5 @@
-/Users/samuelkundrat/VUT_FIT/4.semester/IJA/du2/project/myapp/src/main/java/com/example/App.java
+/Users/samuelkundrat/VUT_FIT/4.semester/IJA/du2/project/myapp/src/main/java/project/common/NodeType.java
+/Users/samuelkundrat/VUT_FIT/4.semester/IJA/du2/project/myapp/src/main/java/project/gui/GameNodeView.java
+/Users/samuelkundrat/VUT_FIT/4.semester/IJA/du2/project/myapp/src/main/java/project/gui/GameBoardView.java
+/Users/samuelkundrat/VUT_FIT/4.semester/IJA/du2/project/myapp/src/main/java/project/gui/MainWindow.java
+/Users/samuelkundrat/VUT_FIT/4.semester/IJA/du2/project/myapp/src/main/java/project/common/GameNode.java
