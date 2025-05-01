@@ -1,10 +1,6 @@
 package ija.ija2024.homework2.game;
 
 import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import ija.ija2024.homework2.Homework2;
 import ija.ija2024.homework2.common.Position;
 
 public class RandomizeGame {
@@ -37,7 +33,7 @@ public class RandomizeGame {
         try {
             Thread.sleep(ms);
         } catch (InterruptedException ex) {
-            Logger.getLogger(Homework2.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Sleep was interrupted.");
         }
     }
 }
