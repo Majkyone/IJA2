@@ -24,12 +24,13 @@ public class GameNodeView extends StackPane implements Observer {
         }
         
         // adds css
-        this.getStylesheets().add(getClass().getResource("/styles/gamenode.css").toExternalForm());
+        this.getStylesheets().add(getClass().getResource("/gamenode.css").toExternalForm());
         
         // default class unpowered
         this.getStyleClass().add(UNPOWERED_CLASS);
         
         this.getChildren().addAll(createNode());
+        
     }
     
     private StackPane createNode(){
@@ -49,10 +50,15 @@ public class GameNodeView extends StackPane implements Observer {
     
     private StackPane createEmptyNode(){
         StackPane pane = new StackPane();
-        rectangle = new Rectangle(50, 50);
-        rectangle.setStroke(Color.BLACK);
+        pane.setId("node");
+        rectangle = new Rectangle();
+        // Don't set fill and stroke directly - let CSS handle it
+        // rectangle.setFill(Color.LIGHTGRAY);
+        // rectangle.setStroke(Color.BLACK);
+        rectangle.widthProperty().bind(this.widthProperty());
+        rectangle.heightProperty().bind(this.heightProperty());
         
-        // class for rectangle
+        // Add the style class - THIS WAS COMMENTED OUT BEFORE
         rectangle.getStyleClass().add("node-rectangle");
         
         pane.getChildren().add(rectangle);
@@ -70,34 +76,119 @@ public class GameNodeView extends StackPane implements Observer {
     
     private StackPane createLinkNode(){
         StackPane pane = new StackPane();
-        
-        Rectangle rectangle = new Rectangle(50, 50);
-        rectangle.setStroke(Color.BLACK);
+        pane.setId("node");
+        Rectangle rectangle = new Rectangle();
+        // Don't set fill and stroke directly - let CSS handle it
+        // rectangle.setStroke(Color.BLACK);
+        // rectangle.setFill(Color.LIGHTGRAY);
         rectangle.getStyleClass().add("node-rectangle");
+        rectangle.widthProperty().bind(this.widthProperty());
+        rectangle.heightProperty().bind(this.heightProperty());
         pane.getChildren().add(rectangle);
         
         switch (shape) {
             case X:
-                addWireToPane(pane, new Line(0, 25, 50, 25)); // Horizontálny vodič
-                addWireToPane(pane, new Line(25, 0, 25, 50)); // Vertikálny vodič
+                Line horizontalWire = new Line();
+                horizontalWire.startXProperty().set(0);
+                horizontalWire.startYProperty().bind(this.heightProperty().divide(2));
+                horizontalWire.endXProperty().bind(this.widthProperty());
+                horizontalWire.endYProperty().bind(this.heightProperty().divide(2));
+                addWireToPane(pane, horizontalWire);
+                
+                Line verticalWire = new Line();
+                verticalWire.startXProperty().bind(this.widthProperty().divide(2));
+                verticalWire.startYProperty().set(0);
+                verticalWire.endXProperty().bind(this.widthProperty().divide(2));
+                verticalWire.endYProperty().bind(this.heightProperty());
+                addWireToPane(pane, verticalWire);
                 break;
             case NE:
-                addWireToPane(pane, new Line(0, 25, 50, 25)); // Diagonálny NE
+                Line vertical = new Line();
+                vertical.startXProperty().bind(pane.widthProperty().multiply(0.5));
+                vertical.startYProperty().set(0);
+                vertical.endXProperty().bind(pane.widthProperty().multiply(0.5));
+                vertical.endYProperty().bind(pane.heightProperty().multiply(0.5));
+                addWireToPane(pane, vertical);
+                
+                Line horizontal = new Line();
+                horizontal.startXProperty().bind(pane.widthProperty().multiply(0.5));
+                horizontal.startYProperty().bind(pane.heightProperty().multiply(0.5));
+                horizontal.endXProperty().bind(pane.widthProperty());
+                horizontal.endYProperty().bind(pane.heightProperty().multiply(0.5));
+                addWireToPane(pane, horizontal); 
                 break;
             case WE:
-                addWireToPane(pane, new Line(0, 25, 50, 25)); // Horizontálny vodič
+                Line wire = new Line(); 
+                wire.startXProperty().set(0);
+                wire.startYProperty().bind(this.heightProperty().divide(2));
+                wire.endXProperty().bind(this.widthProperty());
+                wire.endYProperty().bind(this.heightProperty().divide(2));
+                addWireToPane(pane, wire); // Horizontálny vodič
                 break;
             case I:
-                addWireToPane(pane, new Line(25, 0, 25, 50)); // Vertikálny vodič
+                Line wireI = new Line();
+                wireI.startXProperty().bind(this.widthProperty().divide(2));
+                wireI.startYProperty().set(0);
+                wireI.endXProperty().bind(this.widthProperty().divide(2));
+                wireI.endYProperty().bind(this.heightProperty());
+                addWireToPane(pane, wireI);
                 break;
             case NW:
-                addWireToPane(pane, new Line(0, 25, 50, 25)); // Diagonálny NW
+                // Vertikálna časť (ide zo stredu hore)
+                Line verticalWireNW = new Line();
+                verticalWireNW.startXProperty().bind(this.widthProperty().multiply(0.5)); // Stred šírky
+                verticalWireNW.startYProperty().bind(this.heightProperty().multiply(1));   // Začiatok dole
+                verticalWireNW.endXProperty().bind(this.widthProperty().multiply(0.5));     // Koniec vertikálne v strede
+                verticalWireNW.endYProperty().bind(this.heightProperty().multiply(0));     // Koniec hore
+
+                // Horizontálna časť (ide doľava)
+                Line horizontalWireNW = new Line();
+                horizontalWireNW.startXProperty().bind(this.widthProperty().multiply(0.5)); // Stred šírky
+                horizontalWireNW.startYProperty().bind(this.heightProperty().multiply(0)); // Stred výšky
+                horizontalWireNW.endXProperty().bind(this.widthProperty().multiply(0));    // Koniec na ľavom okraji
+                horizontalWireNW.endYProperty().bind(this.heightProperty().multiply(0));  // Stred výšky
+
+                // Pridanie do panela
+                addWireToPane(pane, verticalWireNW);
+                addWireToPane(pane, horizontalWireNW);
                 break;
             case SE:
-                addWireToPane(pane, new Line(0, 25, 50, 25)); // Diagonálny SE
+                // Vertikálna časť (ide zo stredu dole)
+                Line verticalWireSE = new Line();
+                verticalWireSE.startXProperty().bind(this.widthProperty().multiply(0.5)); // Stred šírky
+                verticalWireSE.startYProperty().bind(this.heightProperty().multiply(0));   // Začiatok hore
+                verticalWireSE.endXProperty().bind(this.widthProperty().multiply(0.5));     // Koniec vertikálne v strede
+                verticalWireSE.endYProperty().bind(this.heightProperty().multiply(0.5));   // Stred výšky
+
+                // Horizontálna časť (ide doprava)
+                Line horizontalWireSE = new Line();
+                horizontalWireSE.startXProperty().bind(this.widthProperty().multiply(0.5)); // Stred šírky
+                horizontalWireSE.startYProperty().bind(this.heightProperty().multiply(0.5)); // Stred výšky
+                horizontalWireSE.endXProperty().bind(this.widthProperty().multiply(1));    // Koniec na pravom okraji
+                horizontalWireSE.endYProperty().bind(this.heightProperty().multiply(0.5));  // Stred výšky
+
+                // Pridanie do panela
+                addWireToPane(pane, verticalWireSE);
+                addWireToPane(pane, horizontalWireSE);
                 break;
             case SW:
-                addWireToPane(pane, new Line(0, 25, 50, 25)); // Diagonálny SW
+                // Vertikálna časť (ide zo stredu dole)
+                Line verticalWireSW = new Line();
+                verticalWireSW.startXProperty().bind(this.widthProperty().multiply(0.5)); // Stred šírky
+                verticalWireSW.startYProperty().bind(this.heightProperty().multiply(0));   // Začiatok hore
+                verticalWireSW.endXProperty().bind(this.widthProperty().multiply(0.5));     // Koniec vertikálne v strede
+                verticalWireSW.endYProperty().bind(this.heightProperty().multiply(0.5));   // Stred výšky
+
+                // Horizontálna časť (ide doľava)
+                Line horizontalWireSW = new Line();
+                horizontalWireSW.startXProperty().bind(this.widthProperty().multiply(0.5)); // Stred šírky
+                horizontalWireSW.startYProperty().bind(this.heightProperty().multiply(0.5)); // Stred výšky
+                horizontalWireSW.endXProperty().bind(this.widthProperty().multiply(0));    // Koniec na ľavom okraji
+                horizontalWireSW.endYProperty().bind(this.heightProperty().multiply(0.5));  // Stred výšky
+
+                // Pridanie do panela
+                addWireToPane(pane, verticalWireSW);
+                addWireToPane(pane, horizontalWireSW);
                 break;
             default:
                 break;
