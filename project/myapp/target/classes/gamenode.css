@@ -1,39 +1,99 @@
-.node-rectangle {
-    -fx-fill: lightgray; /* Predvolená farba výplne */
-    -fx-stroke: black; /* Predvolená farba okraja */
-    -fx-transition: -fx-fill 0.3s ease, -fx-stroke 0.3s ease; /* Pridanie animácie */
-    -fx-padding: 0;
-    -fx-margin: 0;
+/* Base styles for the entire node */
+.game-node {
+    -fx-cursor: hand; /* Change cursor to hand on whole node */
 }
 
-/* Efekt pri hover */
-.node-rectangle:hover {
-    -fx-fill: #FFD700; /* Zmena farby na zlatú */
-    -fx-cursor: hand; /* Zmena kurzora na ruky */
+/* Style for the node pane */
+.node-pane {
+    /* This makes the pane pick up hover events across its entire area */
+    -fx-background-color: transparent;
+}
+
+/* Base styles for the rectangle */
+.node-rectangle {
+    -fx-fill: lightgray;
+    -fx-stroke: black;
+    -fx-transition: -fx-fill 0.3s ease, -fx-stroke 0.3s ease;
 }
 
 /* Styles for the wires */
 .wire-line {
-    -fx-stroke: #666666; /* Default wire color */
-    -fx-transition: -fx-stroke 0.3s ease; /* Animation for color change */
+    -fx-transition: -fx-stroke 0.3s ease;
 }
 
-/* When powered, apply these styles */
+/* Hover effect on the entire node */
+.game-node:hover .node-rectangle {
+    -fx-fill: #FFD700; /* Gold color on hover */
+}
+
+/* Power states */
 .powered-node .wire-line {
-    -fx-stroke: #00FF00; /* Green for powered wires */
+    -fx-stroke: #ecfa34; /* Green for powered wires */
 }
 
-/* When unpowered, apply these styles */
 .unpowered-node .wire-line {
-    -fx-stroke: #666666; /* Default for unpowered wires */
+    -fx-stroke: #3137fd; /* Default for unpowered wires */
 }
 
-/* If node is powered */
-.powered-node .node-rectangle:hover {
-    -fx-fill: #00FF00; /* Zelená pre napájaný node */
+/* Hover effects based on power state */
+.powered-node:hover .node-rectangle {
+    -fx-fill: #00FF00; /* Green for powered node hover */
 }
 
-/* If node is unpowered */
-.unpowered-node .node-rectangle:hover {
-    -fx-fill: #FF6347; /* Červená pre nenapájaný node */
+.unpowered-node:hover .node-rectangle {
+    -fx-fill: #FF6347; /* Red for unpowered node hover */
+}
+
+/* Special styles for the empty node */
+.empty-node .node-rectangle{
+    -fx-fill: darkgray;
+    -fx-cursor: not-allowed;
+}
+
+/* Hover effect for empty node */
+.empty-node:hover .node-rectangle {
+    -fx-fill: darkgray; /* Dark gray background on hover */
+}
+
+.unpowered-node .bulb-node .node-rectangle{
+    -fx-fill: rgb(79, 71, 71);
+    -fx-stroke: black;
+}
+
+.unpowered-node .bulb{
+    -fx-fill: rgb(221, 221, 221);
+    -fx-stroke: black;
+}
+
+.powered-node .bulb-node .node-rectangle{
+    -fx-fill: rgb(79, 71, 71);
+    -fx-stroke: black;
+}
+
+.powered-node .bulb{
+    -fx-fill: yellow;
+    -fx-stroke: black;
+    -fx-effect: dropshadow(gaussian, gold, 10, 0.5, 0, 0);
+}
+
+.powered-node .wire-line{
+    -fx-fill: yellow;
+}
+
+.unpowered-node:hover .bulb-node .node-rectangle{
+    -fx-fill: rgb(94, 86, 86);
+    -fx-stroke: black;
+}
+
+.powered-node:hover .bulb-node .node-rectangle{
+    -fx-fill: rgb(94, 86, 86);
+    -fx-stroke: black;
+}
+
+.source-node .node-rectangle{
+    -fx-background-color: #F0F8FF; /* Svetlomodré pozadie */
+}
+
+.source-node .source{
+    -fx-fill: lightgray;
 }

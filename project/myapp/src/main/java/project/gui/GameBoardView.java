@@ -38,6 +38,7 @@ public class GameBoardView extends GridPane {
             for (int c = 1; c <= game.cols(); c++) {
                 GameNode node = grid[r][c];
                 GameNodeView nodeView = new GameNodeView(node);
+                nodeView.setId("node");
                 nodeView.setMinSize(tileSize, tileSize);
                 nodeView.setMaxSize(tileSize, tileSize);
                 if (node.getType() != NodeType.EMPTY) {

@@ -98,6 +98,7 @@ public class Game implements ToolEnvironment, Observer{
     }
 
     public void init() {
+        System.out.println("init game robkam");
         boolean [] [] originalPower = new boolean[rows + 1][cols + 1];
         for (int r = 1; r <= rows; r++) {
             for (int c = 1; c <= cols; c++) {

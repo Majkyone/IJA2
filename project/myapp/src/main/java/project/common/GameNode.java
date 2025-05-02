@@ -138,6 +138,7 @@ public class GameNode extends AbstractObservableField {
      * This changes the direction of all the connectors and updates the number of turns.
      */
     public void turn() {
+        System.err.println("otacam node");
         int i = 0;
         for (Side side : this.side) {
             int changeDirection = side.ordinal();
@@ -168,6 +169,10 @@ public class GameNode extends AbstractObservableField {
         } else {
             return (this.numberOfTurns + 2) % 4;
         }
+    }
+
+    public int getTurns(){
+        return this.numberOfTurns;
     }
 
     /**

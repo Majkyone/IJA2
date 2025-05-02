@@ -23,8 +23,46 @@ public class MainWindow extends Application {
     public void start(Stage primaryStage) {
         game = Game.create(cols, rows);
         Position position = new Position(2, 2);
-        Side [] sides = {Side.NORTH, Side.SOUTH};
+        Side [] sides = {Side.SOUTH, Side.EAST};
         game.createLinkNode(position, sides);
+
+        Position position7 = new Position(2, 3);
+        Side [] sides7 = {Side.SOUTH, Side.WEST};
+        game.createLinkNode(position7, sides7);
+
+        Position position2 = new Position(3, 2);
+        Side [] sides2 = {Side.NORTH, Side.SOUTH};
+        game.createLinkNode(position2, sides2);
+        game.init();
+
+        Position position4 = new Position(3, 3);
+        Side [] sides4 = {Side.NORTH, Side.WEST};
+        game.createLinkNode(position4, sides4);
+        game.init();
+
+        Position position5 = new Position(3, 4);
+        Side [] sides5 = {Side.WEST, Side.EAST};
+        game.createLinkNode(position5, sides5);
+        game.init();
+
+        Position position6 = new Position(3, 5);
+        Side [] sides6 = {Side.NORTH, Side.EAST};
+        game.createLinkNode(position6, sides6);
+        game.init();
+
+        Position position3 = new Position(4, 2);
+        Side [] sides3 = {Side.NORTH, Side.SOUTH, Side.EAST, Side.WEST};
+        game.createLinkNode(position3, sides3);
+        game.init();
+
+        Position position8 = new Position(4, 3);
+        Side  sides8 = Side.NORTH;
+        game.createBulbNode(position8, sides8);
+        game.init();
+
+        Position position9 = new Position(4, 4);
+        Side [] sides9 = {Side.EAST, Side.NORTH};
+        game.createPowerNode(position9, sides9);
         game.init();
 
         BorderPane mainLayout = new BorderPane();
