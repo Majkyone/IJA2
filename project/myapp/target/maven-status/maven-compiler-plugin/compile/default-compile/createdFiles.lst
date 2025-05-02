@@ -1,10 +1,14 @@
 project/gui/GameNodeView.class
 project/gui/GameNodeView$1.class
 project/gui/GameBoardView.class
+project/game/GameLoader.class
 project/common/ToolField.class
 project/common/AbstractObservableField.class
+project/game/TurnCommand.class
 project/game/Game.class
+project/game/Command.class
 project/common/ToolEnvironment.class
+project/game/CommandManager.class
 project/common/NodeType.class
 project/gui/MainWindow.class
 project/common/Side.class
@@ -15,3 +19,4 @@ project/common/NodeShape.class
 project/common/GameNode.class
 project/common/Position.class
 project/common/GameNode$1.class
+project/game/RandomizeGame.class

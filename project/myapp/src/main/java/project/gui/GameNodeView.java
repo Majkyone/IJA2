@@ -6,49 +6,56 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
+import javafx.geometry.Pos;
+
 public class GameNodeView extends StackPane implements Observer {
     private final GameNode node;
     private Rectangle rectangle;
     private NodeShape shape;
-    
+
     // CSS classes for power and no power
     private static final String POWERED_CLASS = "powered-node";
     private static final String UNPOWERED_CLASS = "unpowered-node";
-    
+
     public GameNodeView(GameNode node) {
         this.node = node;
         this.shape = node.getShape();
         // add view as observer
-        if(node instanceof Observable observable){
+        if (node instanceof Observable observable) {
             observable.addObserver(this);
         }
-        
+
         // adds css
         this.getStylesheets().add(getClass().getResource("/gamenode.css").toExternalForm());
-        
+
         // default class unpowered
-        this.getStyleClass().add(UNPOWERED_CLASS);
-        
+        this.getStyleClass().add(POWERED_CLASS);
+
         this.getChildren().addAll(createNode());
-        
+
     }
-    
-    private StackPane createNode(){
+
+    private StackPane createNode() {
         switch (node.getType()) {
             case EMPTY:
                 return createEmptyNode();
             case WIRE:
                 return createLinkNode();
             case SOURCE:
-                //return createSourceNode();
+                return createLinkNode();
             case BULB:
-                // return createBulbNode();
+                return createLinkNode();
             default:
                 throw new IllegalStateException("Unexpected node value: " + node.getType());
         }
     }
-    
-    private StackPane createEmptyNode(){
+
+    private StackPane createEmptyNode() {
         StackPane pane = new StackPane();
         pane.setId("node");
         rectangle = new Rectangle();
@@ -57,24 +64,24 @@ public class GameNodeView extends StackPane implements Observer {
         // rectangle.setStroke(Color.BLACK);
         rectangle.widthProperty().bind(this.widthProperty());
         rectangle.heightProperty().bind(this.heightProperty());
-        
+
         // Add the style class - THIS WAS COMMENTED OUT BEFORE
         rectangle.getStyleClass().add("node-rectangle");
-        
+
         pane.getChildren().add(rectangle);
         return pane;
     }
-    
+
     private void addWireToPane(StackPane pane, Line wire) {
         wire.setStrokeWidth(3);
-        
+
         // class for wire
         wire.getStyleClass().add("wire-line");
-        
+
         pane.getChildren().add(wire);
     }
-    
-    private StackPane createLinkNode(){
+
+    private StackPane createLinkNode() {
         StackPane pane = new StackPane();
         pane.setId("node");
         Rectangle rectangle = new Rectangle();
@@ -85,137 +92,98 @@ public class GameNodeView extends StackPane implements Observer {
         rectangle.widthProperty().bind(this.widthProperty());
         rectangle.heightProperty().bind(this.heightProperty());
         pane.getChildren().add(rectangle);
-        
-        switch (shape) {
-            case X:
-                Line horizontalWire = new Line();
-                horizontalWire.startXProperty().set(0);
-                horizontalWire.startYProperty().bind(this.heightProperty().divide(2));
-                horizontalWire.endXProperty().bind(this.widthProperty());
-                horizontalWire.endYProperty().bind(this.heightProperty().divide(2));
-                addWireToPane(pane, horizontalWire);
-                
-                Line verticalWire = new Line();
-                verticalWire.startXProperty().bind(this.widthProperty().divide(2));
-                verticalWire.startYProperty().set(0);
-                verticalWire.endXProperty().bind(this.widthProperty().divide(2));
-                verticalWire.endYProperty().bind(this.heightProperty());
-                addWireToPane(pane, verticalWire);
-                break;
-            case NE:
-                Line vertical = new Line();
-                vertical.startXProperty().bind(pane.widthProperty().multiply(0.5));
-                vertical.startYProperty().set(0);
-                vertical.endXProperty().bind(pane.widthProperty().multiply(0.5));
-                vertical.endYProperty().bind(pane.heightProperty().multiply(0.5));
-                addWireToPane(pane, vertical);
-                
-                Line horizontal = new Line();
-                horizontal.startXProperty().bind(pane.widthProperty().multiply(0.5));
-                horizontal.startYProperty().bind(pane.heightProperty().multiply(0.5));
-                horizontal.endXProperty().bind(pane.widthProperty());
-                horizontal.endYProperty().bind(pane.heightProperty().multiply(0.5));
-                addWireToPane(pane, horizontal); 
-                break;
-            case WE:
-                Line wire = new Line(); 
-                wire.startXProperty().set(0);
-                wire.startYProperty().bind(this.heightProperty().divide(2));
-                wire.endXProperty().bind(this.widthProperty());
-                wire.endYProperty().bind(this.heightProperty().divide(2));
-                addWireToPane(pane, wire); // Horizontálny vodič
-                break;
-            case I:
-                Line wireI = new Line();
-                wireI.startXProperty().bind(this.widthProperty().divide(2));
-                wireI.startYProperty().set(0);
-                wireI.endXProperty().bind(this.widthProperty().divide(2));
-                wireI.endYProperty().bind(this.heightProperty());
-                addWireToPane(pane, wireI);
-                break;
-            case NW:
-                // Vertikálna časť (ide zo stredu hore)
-                Line verticalWireNW = new Line();
-                verticalWireNW.startXProperty().bind(this.widthProperty().multiply(0.5)); // Stred šírky
-                verticalWireNW.startYProperty().bind(this.heightProperty().multiply(1));   // Začiatok dole
-                verticalWireNW.endXProperty().bind(this.widthProperty().multiply(0.5));     // Koniec vertikálne v strede
-                verticalWireNW.endYProperty().bind(this.heightProperty().multiply(0));     // Koniec hore
 
-                // Horizontálna časť (ide doľava)
-                Line horizontalWireNW = new Line();
-                horizontalWireNW.startXProperty().bind(this.widthProperty().multiply(0.5)); // Stred šírky
-                horizontalWireNW.startYProperty().bind(this.heightProperty().multiply(0)); // Stred výšky
-                horizontalWireNW.endXProperty().bind(this.widthProperty().multiply(0));    // Koniec na ľavom okraji
-                horizontalWireNW.endYProperty().bind(this.heightProperty().multiply(0));  // Stred výšky
+        StackPane northPane = new StackPane();
+        StackPane southPane = new StackPane();
+        StackPane eastPane = new StackPane();
+        StackPane westPane = new StackPane();
 
-                // Pridanie do panela
-                addWireToPane(pane, verticalWireNW);
-                addWireToPane(pane, horizontalWireNW);
-                break;
-            case SE:
-                // Vertikálna časť (ide zo stredu dole)
-                Line verticalWireSE = new Line();
-                verticalWireSE.startXProperty().bind(this.widthProperty().multiply(0.5)); // Stred šírky
-                verticalWireSE.startYProperty().bind(this.heightProperty().multiply(0));   // Začiatok hore
-                verticalWireSE.endXProperty().bind(this.widthProperty().multiply(0.5));     // Koniec vertikálne v strede
-                verticalWireSE.endYProperty().bind(this.heightProperty().multiply(0.5));   // Stred výšky
+        northPane.setAlignment(Pos.TOP_CENTER);
+        southPane.setAlignment(Pos.BOTTOM_CENTER);
+        eastPane.setAlignment(Pos.CENTER_RIGHT);
+        westPane.setAlignment(Pos.CENTER_LEFT);
+        pane.getChildren().addAll(northPane, southPane, eastPane, westPane);
+        for (Side side : node.getSides()) {
+            switch (side) {
+                case Side.NORTH:
 
-                // Horizontálna časť (ide doprava)
-                Line horizontalWireSE = new Line();
-                horizontalWireSE.startXProperty().bind(this.widthProperty().multiply(0.5)); // Stred šírky
-                horizontalWireSE.startYProperty().bind(this.heightProperty().multiply(0.5)); // Stred výšky
-                horizontalWireSE.endXProperty().bind(this.widthProperty().multiply(1));    // Koniec na pravom okraji
-                horizontalWireSE.endYProperty().bind(this.heightProperty().multiply(0.5));  // Stred výšky
-
-                // Pridanie do panela
-                addWireToPane(pane, verticalWireSE);
-                addWireToPane(pane, horizontalWireSE);
-                break;
-            case SW:
-                // Vertikálna časť (ide zo stredu dole)
-                Line verticalWireSW = new Line();
-                verticalWireSW.startXProperty().bind(this.widthProperty().multiply(0.5)); // Stred šírky
-                verticalWireSW.startYProperty().bind(this.heightProperty().multiply(0));   // Začiatok hore
-                verticalWireSW.endXProperty().bind(this.widthProperty().multiply(0.5));     // Koniec vertikálne v strede
-                verticalWireSW.endYProperty().bind(this.heightProperty().multiply(0.5));   // Stred výšky
-
-                // Horizontálna časť (ide doľava)
-                Line horizontalWireSW = new Line();
-                horizontalWireSW.startXProperty().bind(this.widthProperty().multiply(0.5)); // Stred šírky
-                horizontalWireSW.startYProperty().bind(this.heightProperty().multiply(0.5)); // Stred výšky
-                horizontalWireSW.endXProperty().bind(this.widthProperty().multiply(0));    // Koniec na ľavom okraji
-                horizontalWireSW.endYProperty().bind(this.heightProperty().multiply(0.5));  // Stred výšky
-
-                // Pridanie do panela
-                addWireToPane(pane, verticalWireSW);
-                addWireToPane(pane, horizontalWireSW);
-                break;
-            default:
-                break;
+                    Line northLine = new Line();
+                    northLine.startXProperty().bind(this.widthProperty().multiply(0.5));
+                    // Stredový bod Y (50%)
+                    northLine.startYProperty().bind(this.heightProperty().multiply(0.5));
+                    // Stredový bod X (50%)
+                    northLine.endXProperty().bind(this.widthProperty().multiply(0.5));
+                    // Horný okraj (0%)
+                    northLine.endYProperty().bind(this.heightProperty());
+                    addWireToPane(northPane, northLine);
+                    break;
+                case Side.WEST:
+                    Line westLine = new Line();
+                    westLine.startXProperty().bind(this.widthProperty().multiply(0.5));
+                    // Stredový bod Y (50%)
+                    westLine.startYProperty().bind(this.heightProperty().multiply(0.5));
+                    // Stredový bod X (50%)
+                    westLine.endXProperty().bind(this.widthProperty());
+                    // Horný okraj (0%)
+                    westLine.endYProperty().bind(this.heightProperty().multiply(0.5));
+                    addWireToPane(westPane, westLine);
+                    break;
+                case Side.EAST:
+                    Line eastLine = new Line();
+                    eastLine.startXProperty().bind(this.widthProperty().multiply(0.5));
+                    // Stredový bod Y (50%)
+                    eastLine.startYProperty().bind(this.heightProperty().multiply(0.5));
+                    // Stredový bod X (50%)
+                    eastLine.endXProperty().bind(this.widthProperty());
+                    // Horný okraj (0%)
+                    eastLine.endYProperty().bind(this.heightProperty().multiply(0.5));
+                    addWireToPane(eastPane, eastLine);
+                    break;
+                case Side.SOUTH:
+                    Line southLine = new Line();
+                    southLine.startXProperty().bind(this.widthProperty().multiply(0.5));
+                    // Stredový bod Y (50%)
+                    southLine.startYProperty().bind(this.heightProperty().multiply(0.5));
+                    // Stredový bod X (50%)
+                    southLine.endXProperty().bind(this.widthProperty().multiply(0.5));
+                    // Horný okraj (0%)
+                    southLine.endYProperty().bind(this.heightProperty());
+                    addWireToPane(southPane, southLine);
+                    break;
+                default:
+                    break;
+            }
         }
-        
+
         return pane;
     }
-    
+
     public void update(Observable observable) {
-        if(node.getType() != NodeType.EMPTY){
+        if (node.getType() != NodeType.EMPTY) {
+
             if (observable instanceof GameNode gameNode) {
-                // change color of wire 
+                // change color of wire
+
                 if (gameNode.isPowered()) {
-                    this.getStyleClass().remove(UNPOWERED_CLASS);
+                    while (this.getStyleClass().contains(UNPOWERED_CLASS)) {
+                        this.getStyleClass().remove(UNPOWERED_CLASS);
+                    }
                     this.getStyleClass().add(POWERED_CLASS);
                 } else {
-                    this.getStyleClass().remove(POWERED_CLASS);
+                    while (this.getStyleClass().contains(POWERED_CLASS)) {
+                        this.getStyleClass().remove(POWERED_CLASS);
+                    }
                     this.getStyleClass().add(UNPOWERED_CLASS);
                 }
-                
+
                 // rotate 90 deg.
-                NodeShape newShape = gameNode.getShape();
-                if (this.shape != newShape) {
-                    int turns = node.getNumberOfturns() % 4;
-                    this.setRotate(turns * 90);
-                }
-                this.shape = newShape;
+                int turns = node.getTotalNumberOfTurns() % 4;
+                this.setRotate(turns * 90);
+                // NodeShape newShape = gameNode.getShape();
+                // if (this.shape != newShape) {
+
+                // }
+                // this.shape = newShape;
             }
         }
     }
