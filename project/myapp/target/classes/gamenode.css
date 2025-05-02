@@ -1,0 +1,39 @@
+.node-rectangle {
+    -fx-fill: lightgray; /* Predvolená farba výplne */
+    -fx-stroke: black; /* Predvolená farba okraja */
+    -fx-transition: -fx-fill 0.3s ease, -fx-stroke 0.3s ease; /* Pridanie animácie */
+    -fx-padding: 0;
+    -fx-margin: 0;
+}
+
+/* Efekt pri hover */
+.node-rectangle:hover {
+    -fx-fill: #FFD700; /* Zmena farby na zlatú */
+    -fx-cursor: hand; /* Zmena kurzora na ruky */
+}
+
+/* Styles for the wires */
+.wire-line {
+    -fx-stroke: #666666; /* Default wire color */
+    -fx-transition: -fx-stroke 0.3s ease; /* Animation for color change */
+}
+
+/* When powered, apply these styles */
+.powered-node .wire-line {
+    -fx-stroke: #00FF00; /* Green for powered wires */
+}
+
+/* When unpowered, apply these styles */
+.unpowered-node .wire-line {
+    -fx-stroke: #666666; /* Default for unpowered wires */
+}
+
+/* If node is powered */
+.powered-node .node-rectangle:hover {
+    -fx-fill: #00FF00; /* Zelená pre napájaný node */
+}
+
+/* If node is unpowered */
+.unpowered-node .node-rectangle:hover {
+    -fx-fill: #FF6347; /* Červená pre nenapájaný node */
+}

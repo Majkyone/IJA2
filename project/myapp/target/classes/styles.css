@@ -1,0 +1,38 @@
+/* Štýl pre ľavý panel */
+#leftPanel {
+    -fx-background-color: #f8f9fa;
+    -fx-padding: 2em;
+    -fx-spacing: 1.5em;
+    -fx-alignment: center;
+}
+
+/* Základný štýl pre tlačidlá */
+#levelButton, #resetButton {
+    -fx-padding: 0.5em 1.5em; /* vertikálne | horizontálne */
+    -fx-font-size: 1em;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-background-color: linear-gradient(to bottom, #4CAF50, #388E3C);
+    -fx-background-radius: 0.5em;
+    -fx-border-radius: 0.5em;
+    -fx-effect: dropshadow(one-pass-box, rgba(0, 0, 0, 0.2), 5, 0, 0, 2);
+    -fx-cursor: hand;
+    -fx-alignment: center;
+    -fx-wrap-text: true;
+    -fx-max-width: Infinity; /* Tlačidlo sa môže roztiahnuť podľa potreby */
+}
+
+
+/* Hover efekt */
+#levelButton:hover, #resetButton:hover {
+    -fx-background-color: linear-gradient(to bottom, #45a049, #2e7d32);
+}
+
+/* Tlačidlá majú oddelenie cez VBox spacing, netreba extra margin */
+
+/* Herná plocha - žiadne medzery medzi dlaždicami */
+#gameBoard {
+    -fx-padding: 0;
+    -fx-hgap: 0;
+    -fx-vgap: 0;
+}
