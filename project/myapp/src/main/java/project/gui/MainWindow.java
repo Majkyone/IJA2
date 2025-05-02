@@ -6,6 +6,8 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import project.common.Position;
+import project.common.Side;
 import project.game.Game;
 import javafx.scene.layout.Region;
 
@@ -20,6 +22,9 @@ public class MainWindow extends Application {
     @Override
     public void start(Stage primaryStage) {
         game = Game.create(cols, rows);
+        Position position = new Position(2, 2);
+        Side [] sides = {Side.NORTH, Side.SOUTH};
+        game.createLinkNode(position, sides);
         game.init();
 
         BorderPane mainLayout = new BorderPane();

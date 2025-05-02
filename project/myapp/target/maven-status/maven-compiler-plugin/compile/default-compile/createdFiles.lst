@@ -11,7 +11,5 @@ project/common/Side.class
 project/common/Observable.class
 project/common/Observer.class
 project/game/Game$1.class
-project/common/NodeShape.class
 project/common/GameNode.class
 project/common/Position.class
-project/common/GameNode$1.class

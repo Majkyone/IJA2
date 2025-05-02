@@ -202,73 +202,7 @@ public class GameNode extends AbstractObservableField {
     public boolean isPowered() {
         return this.powered;
     }
-
-    /**
-     * Determines the shape of the node based on the connected sides.
-     * The method checks which sides (NORTH, EAST, SOUTH, WEST) are connected and returns 
-     * the corresponding shape from the NodeShape enumeration.
-     * 
-     * The shapes are defined as follows:
-     * <ul>
-     *     <li>X: All sides connected (NORTH, EAST, SOUTH, WEST)</li>
-     *     <li>NE: North and East connected</li>
-     *     <li>WE: West and East connected</li>
-     *     <li>I: North and South connected</li>
-     *     <li>NW: North and West connected</li>
-     *     <li>SE: South and East connected</li>
-     *     <li>SW: South and West connected</li>
-     * </ul>
-     * 
-     * @return the shape of the node based on the connected sides.
-     * @throws IllegalStateException if no matching shape is found (unexpected value).
-     */
-    public NodeShape getShape(){
-        Side sides [];
-        sides = getSides();
-        int connectedSides = 0;
-        for (Side side : sides) {
-            switch (side) {
-                case NORTH:
-                    connectedSides |= 1;  // Bit 0 represents NORTH
-                    break;
-                case EAST:
-                    connectedSides |= 2;  // Bit 1 represents EAST
-                    break;
-                case SOUTH:
-                    connectedSides |= 4;  // Bit 2 represents SOUTH
-                    break;
-                case WEST:
-                    connectedSides |= 8;  // Bit 3 represents WEST
-                    break;
-                default:
-                    break;
-            }
-        }
-        // Return the appropriate NodeShape based on the connected sides
-        switch (connectedSides) {
-            case 15:  // All sides connected (NORTH, EAST, SOUTH, WEST)
-                return NodeShape.X;
-            case 3:   // North and East connected
-                return NodeShape.NE;
-            case 9:   // West and East connected
-                return NodeShape.WE;
-            case 6:   // North and South connected
-                return NodeShape.I;
-            case 12:  // North and West connected
-                return NodeShape.NW;
-            case 10:  // North and East connected
-                return NodeShape.NE;
-            case 5:   // South and East connected
-                return NodeShape.SE;
-            case 7:   // South and West connected
-                return NodeShape.SW;
-            default:
-                // If no matching shape found, you can return a default or throw an exception
-                return NodeShape.UNKNOWN;
-        }
-    }
     
-
     /**
      * Returns a string representation of the GameNode, including its type, position, and connected sides.
      * @return A string representation of the GameNode.

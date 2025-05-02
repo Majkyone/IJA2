@@ -28,6 +28,7 @@
     -fx-background-color: linear-gradient(to bottom, #45a049, #2e7d32);
 }
 
+
 /* Tlačidlá majú oddelenie cez VBox spacing, netreba extra margin */
 
 /* Herná plocha - žiadne medzery medzi dlaždicami */
