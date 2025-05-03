@@ -43,9 +43,6 @@ public class GameBoardPreviewView extends GridPane{
                 nodeView.setId("node");
                 nodeView.setMinSize(tileSize, tileSize);
                 nodeView.setMaxSize(tileSize, tileSize);
-                if (node.getType() != NodeType.EMPTY) {
-                    nodeView.setOnMouseClicked(event -> node.turn());
-                }
                 this.add(nodeView, c - 1, r - 1);
             }
         }
