@@ -142,25 +142,46 @@ public class GameNodeView extends Pane implements Observer {
         rectangle.widthProperty().bind(this.widthProperty());
         rectangle.heightProperty().bind(this.heightProperty());
         pane.getChildren().add(rectangle);
-
+    
         Side[] sides = node.getSides();    
-
+    
         for (Side side : sides) {
             Line wire = createWireForSide(pane, side);
             if (wire != null) {
                 addWireToPane(pane, wire);
             }
         }
-
-        // Add bulb circle in the center
-        Circle bulb = new Circle();
-        bulb.setRadius(10);
-        bulb.getStyleClass().add("bulb");
+    
+        // Create electrical symbol for light bulb (circle with X inside)
+        Group bulbSymbol = new Group();
         
-        // Center the bulb
-        bulb.centerXProperty().bind(pane.widthProperty().divide(2));
-        bulb.centerYProperty().bind(pane.heightProperty().divide(2));
-        pane.getChildren().add(bulb);
+        // Create the circle component
+        Circle bulbCircle = new Circle();
+        bulbCircle.setRadius(12);
+        bulbCircle.setStroke(Color.BLACK);
+        bulbCircle.setFill(Color.TRANSPARENT);
+        bulbCircle.setStrokeWidth(2);
+        bulbCircle.getStyleClass().add("bulb-circle");
+        
+        // Create the X inside the circle using two lines
+        Line diagonal1 = new Line(-8, -8, 8, 8);
+        diagonal1.setStroke(Color.BLACK);
+        diagonal1.setStrokeWidth(2);
+        diagonal1.getStyleClass().add("bulb-line");
+        
+        Line diagonal2 = new Line(8, -8, -8, 8);
+        diagonal2.setStroke(Color.BLACK);
+        diagonal2.setStrokeWidth(2);
+        diagonal2.getStyleClass().add("bulb-line");
+        
+        // Add all components to the group
+        bulbSymbol.getChildren().addAll(bulbCircle, diagonal1, diagonal2);
+        
+        // Center the bulb symbol
+        bulbSymbol.layoutXProperty().bind(pane.widthProperty().divide(2));
+        bulbSymbol.layoutYProperty().bind(pane.heightProperty().divide(2));
+        
+        pane.getChildren().add(bulbSymbol);
         
         return pane;
     }

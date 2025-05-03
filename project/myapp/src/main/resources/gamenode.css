@@ -55,45 +55,50 @@
     -fx-fill: darkgray; /* Dark gray background on hover */
 }
 
-.unpowered-node .bulb-node .node-rectangle{
-    -fx-fill: rgb(79, 71, 71);
-    -fx-stroke: black;
-}
+/* Bulb node styles - unpowered state */
 
-.unpowered-node .bulb{
+
+/* Bulb styles - unpowered */
+.bulb-circle {
     -fx-fill: rgb(221, 221, 221);
     -fx-stroke: black;
+    -fx-stroke-width: 2;
 }
 
-.powered-node .bulb-node .node-rectangle{
-    -fx-fill: rgb(79, 71, 71);
+.bulb-line {
     -fx-stroke: black;
+    -fx-stroke-width: 2;
 }
 
-.powered-node .bulb{
+/* Bulb node styles - powered state */
+
+
+/* Bulb styles - powered */
+.powered-node .bulb-circle {
     -fx-fill: yellow;
     -fx-stroke: black;
     -fx-effect: dropshadow(gaussian, gold, 10, 0.5, 0, 0);
 }
 
-.powered-node .wire-line{
-    -fx-fill: yellow;
-}
-
-.unpowered-node:hover .bulb-node .node-rectangle{
-    -fx-fill: rgb(94, 86, 86);
+.powered-node .bulb-line {
     -fx-stroke: black;
 }
 
-.powered-node:hover .bulb-node .node-rectangle{
-    -fx-fill: rgb(94, 86, 86);
-    -fx-stroke: black;
+/* Wire styles for powered state */
+.powered-node .wire-line {
+    -fx-stroke: yellow;
 }
 
-.source-node .node-rectangle{
-    -fx-background-color: #F0F8FF; /* Svetlomodré pozadie */
+/* Hover effects for bulb node */
+
+
+
+
+/* Source node styles */
+.source-node .node-rectangle {
+    -fx-background-color: #F0F8FF;
 }
 
-.source-node .source{
+.source-node .source {
     -fx-fill: lightgray;
 }

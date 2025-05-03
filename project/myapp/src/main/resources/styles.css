@@ -1,6 +1,6 @@
 /* Štýl pre ľavý panel */
 #leftPanel {
-    -fx-background-color: #f3f2f2;
+    -fx-background-color: #eaeaea;
     -fx-padding: 2em;
     -fx-spacing: 1.5em;
     -fx-alignment: center;
@@ -74,3 +74,41 @@
     -fx-vgap: 0;
 }
 
+#control{
+    -fx-padding: 0.5em 1.5em; /* vertikálne | horizontálne */
+    -fx-font-size: 1em;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-background-color: linear-gradient(to bottom, #4c68af, #38508e);
+    -fx-background-radius: 0.5em;
+    -fx-border-radius: 0.5em;
+    -fx-effect: dropshadow(one-pass-box, rgba(0, 0, 0, 0.2), 5, 0, 0, 2);
+    -fx-cursor: hand;
+    -fx-alignment: center;
+    -fx-wrap-text: true;
+    -fx-max-width: Infinity; /* Tlačidlo sa môže roztiahnuť podľa potreby */
+}
+
+#control:hover{
+    -fx-background-color: linear-gradient(to bottom, #3957a3, #274490);
+}
+#loadButton:hover{
+    -fx-background-color: linear-gradient(to bottom, #4c95af, #38738e);
+}
+
+.title {
+    -fx-font-family: "Arial";
+    -fx-font-size: 34px;
+    -fx-font-weight: bold;
+}
+
+.subtitle {
+    -fx-font-family: "Arial";
+    -fx-font-size: 24px;
+}
+
+.headline{
+    -fx-font-family: "Arial";
+    -fx-font-size: 34px;
+    -fx-font-weight: bold;
+}

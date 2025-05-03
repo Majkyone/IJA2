@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import javafx.scene.control.Button;
 import javafx.scene.layout.*;
 import project.common.GameNode;
 import project.common.NodeType;
@@ -14,8 +15,12 @@ public class GameBoardView extends GridPane {
     private final Game game;
     private final int tileSize = 50;
     private final CommandManager commandManager = new CommandManager();
-    public GameBoardView(Game game) {
+    private final Button undoButton;
+    private final Button redoButton;
+    public GameBoardView(Game game, Button undoButton, Button redoButton) {
         this.game = game;
+        this.undoButton = undoButton;
+        this.redoButton = redoButton;
         this.setMinSize(tileSize * game.cols(), tileSize * game.rows());
         this.setMaxSize(tileSize * game.cols(), tileSize * game.rows());
         this.setPrefSize(tileSize * game.cols(), tileSize * game.rows());
@@ -48,6 +53,8 @@ public class GameBoardView extends GridPane {
                 nodeView.setMaxSize(tileSize, tileSize);
                 if (node.getType() != NodeType.EMPTY && node.getNumberOfSides() != 4) {
                     nodeView.setOnMouseClicked(event -> {
+                        undoButton.setVisible(false);
+                        redoButton.setVisible(false);
                         TurnCommand cmd = new TurnCommand(node);
                         commandManager.executeCommand(cmd);
                         saveSteps(node);

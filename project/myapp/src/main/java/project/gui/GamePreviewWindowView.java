@@ -51,6 +51,10 @@ public class GamePreviewWindowView extends Stage {
         
         Label legendTitle = new Label("Legend");
         legendTitle.setStyle("-fx-font-weight: bold; -fx-font-size: 14;");
+
+        Label legendSubTitle = new Label("Each number represents number of turns to achive good conncetion");
+        legendSubTitle.setStyle("-fx-font-size: 12; -fx-text-fill:rgb(217, 62, 62);");
+
         
         // Create a container for legend items
         HBox legendItems = new HBox(20);
@@ -73,7 +77,7 @@ public class GamePreviewWindowView extends Stage {
         
         // Add items to the legend container
         legendItems.getChildren().addAll(poweredNode, unpoweredNode, universalNode, emptyNode);
-        legendContainer.getChildren().addAll(legendTitle, legendItems);
+        legendContainer.getChildren().addAll(legendTitle, legendSubTitle, legendItems);
         
         return legendContainer;
     }
