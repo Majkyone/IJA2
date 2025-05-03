@@ -10,11 +10,8 @@ import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.QuadCurveTo;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeLineCap;
-
 import javafx.scene.shape.Path;
-
 import javafx.scene.Group;
-
 
 public class GameNodeView extends Pane implements Observer {
     private final GameNode node;
@@ -27,27 +24,46 @@ public class GameNodeView extends Pane implements Observer {
     
     public GameNodeView(GameNode node) {
         this.node = node;
-        // add view as observer
-        if(node instanceof Observable observable){
+        
+        // Add view as observer
+        if (node instanceof Observable observable) {
             observable.addObserver(this);
         }
         
-        // adds css
+        // Add CSS
         this.getStylesheets().add(getClass().getResource("/gamenode.css").toExternalForm());
         
-        // Apply the style class to the entire pane (not just the rectangle)
-        if (node.isPowered()) {
-            this.getStyleClass().add(POWERED_CLASS);
-        }else{
-            this.getStyleClass().add(UNPOWERED_CLASS);
-
-        }
-        this.getStyleClass().add("game-node"); // Add a class to the entire pane for hover effects
+        // Add base class for all nodes
+        this.getStyleClass().add("game-node");
         
+        // Apply initial power state classes
+        updatePowerStyles();
+        
+        // Create and add the appropriate node representation
         this.getChildren().addAll(createNode());
     }
     
-    private Pane createNode(){
+    /**
+     * Updates the node's style classes based on its current power state
+     */
+    private void updatePowerStyles() {
+        // First remove both classes to ensure clean state
+        this.getStyleClass().remove(POWERED_CLASS);
+        this.getStyleClass().remove(UNPOWERED_CLASS);
+        
+        // Only apply power styling to non-empty nodes
+        if (node.getType() != NodeType.EMPTY) {
+            if (node.isPowered()) {
+                this.getStyleClass().add(POWERED_CLASS);
+                System.out.println("Adding POWERED class, isPowered: " + node.isPowered());
+            } else {
+                this.getStyleClass().add(UNPOWERED_CLASS);
+                System.out.println("Adding UNPOWERED class, isPowered: " + node.isPowered());
+            }
+        }
+    }
+    
+    private Pane createNode() {
         switch (node.getType()) {
             case EMPTY:
                 return createEmptyNode();
@@ -62,13 +78,11 @@ public class GameNodeView extends Pane implements Observer {
         }
     }
     
-    private Pane createEmptyNode(){
+    private Pane createEmptyNode() {
         Pane pane = new Pane();
-        // Apply the style class to the pane itself for hover effects
+        // Apply style classes
         pane.getStyleClass().add("node-pane");
-        
-        // Add specific class for empty nodes
-        pane.getStyleClass().add("empty-node"); // <-- Pridaj túto triedu
+        pane.getStyleClass().add("empty-node");
         
         rectangle = new Rectangle();
         rectangle.getStyleClass().add("node-rectangle");
@@ -78,6 +92,7 @@ public class GameNodeView extends Pane implements Observer {
         pane.getChildren().add(rectangle);
         return pane;
     }
+    
     private void addWireToPane(Pane pane, Line wire) {
         // Increase stroke width for better visibility
         wire.setStrokeWidth(STROKE_WIDTH);
@@ -93,12 +108,10 @@ public class GameNodeView extends Pane implements Observer {
         pane.getChildren().add(wire);
     }
     
-    private Pane createLinkNode(){
+    private Pane createLinkNode() {
         Pane pane = new Pane();
         pane.setId("node");
-        // Apply the style class to the pane itself for hover effects
         pane.getStyleClass().add("node-pane");
-        
         
         Rectangle rectangle = new Rectangle();
         rectangle.getStyleClass().add("node-rectangle");
@@ -106,7 +119,7 @@ public class GameNodeView extends Pane implements Observer {
         rectangle.heightProperty().bind(this.heightProperty());
         pane.getChildren().add(rectangle);
 
-        Side [] sides = node.getSides();    
+        Side[] sides = node.getSides();    
 
         for (Side side : sides) {
             Line wire = createWireForSide(pane, side);
@@ -118,10 +131,9 @@ public class GameNodeView extends Pane implements Observer {
         return pane;
     }
 
-    private Pane createBulbNode(){
+    private Pane createBulbNode() {
         Pane pane = new Pane();
         pane.setId("node");
-        // Apply the style class to the pane itself for hover effects
         pane.getStyleClass().add("node-pane");
         pane.getStyleClass().add("bulb-node");
         
@@ -131,9 +143,7 @@ public class GameNodeView extends Pane implements Observer {
         rectangle.heightProperty().bind(this.heightProperty());
         pane.getChildren().add(rectangle);
 
-       
-
-        Side [] sides = node.getSides();    
+        Side[] sides = node.getSides();    
 
         for (Side side : sides) {
             Line wire = createWireForSide(pane, side);
@@ -142,17 +152,15 @@ public class GameNodeView extends Pane implements Observer {
             }
         }
 
-         // Pridanie kruhu do stredu ako žiarovky
-         Circle bulb = new Circle();
-         bulb.setRadius(10); // veľkosť žiarovky
-         bulb.getStyleClass().add("bulb");
-         // bulb.setFill(Color.YELLOW);
-         // bulb.setStroke(Color.BLACK);
- 
-         // Umiestniť žiarovku do stredu podľa veľkosti parenta
-         bulb.centerXProperty().bind(pane.widthProperty().divide(2));
-         bulb.centerYProperty().bind(pane.heightProperty().divide(2));
-         pane.getChildren().add(bulb);
+        // Add bulb circle in the center
+        Circle bulb = new Circle();
+        bulb.setRadius(10);
+        bulb.getStyleClass().add("bulb");
+        
+        // Center the bulb
+        bulb.centerXProperty().bind(pane.widthProperty().divide(2));
+        bulb.centerYProperty().bind(pane.heightProperty().divide(2));
+        pane.getChildren().add(bulb);
         
         return pane;
     }
@@ -161,7 +169,7 @@ public class GameNodeView extends Pane implements Observer {
         Pane pane = new Pane();
         pane.setId("node");
         pane.getStyleClass().add("node-pane");
-        pane.getStyleClass().add("source-node"); // CSS trieda pre odlíšenie
+        pane.getStyleClass().add("source-node");
     
         Rectangle rectangle = new Rectangle();
         rectangle.getStyleClass().add("node-rectangle");
@@ -177,10 +185,10 @@ public class GameNodeView extends Pane implements Observer {
             }
         }
     
-        // Vytvorenie symbolu zdroja - menší kruh s vlnkou
+        // Create source symbol - smaller circle with wave
         Group sourceSymbol = new Group();
     
-        Circle circle = new Circle(10); // Zmenšený kruh
+        Circle circle = new Circle(10);
         circle.setStroke(Color.BLACK);
         circle.setFill(Color.TRANSPARENT);
         circle.setStrokeWidth(2);
@@ -191,7 +199,7 @@ public class GameNodeView extends Pane implements Observer {
         wave.setStrokeWidth(2);
         wave.setFill(null);
     
-        // Menšia vlnka cez stred kruhu
+        // Small wave through center of circle
         MoveTo moveTo = new MoveTo(-5, 0);
         QuadCurveTo curve1 = new QuadCurveTo(-2, -5, 0, 0);
         QuadCurveTo curve2 = new QuadCurveTo(2, 5, 5, 0);
@@ -199,7 +207,7 @@ public class GameNodeView extends Pane implements Observer {
     
         sourceSymbol.getChildren().addAll(circle, wave);
     
-        // Zarovnanie do stredu
+        // Center alignment
         sourceSymbol.layoutXProperty().bind(pane.widthProperty().divide(2));
         sourceSymbol.layoutYProperty().bind(pane.heightProperty().divide(2));
     
@@ -208,13 +216,12 @@ public class GameNodeView extends Pane implements Observer {
         return pane;
     }
     
-
     private Line createWireForSide(Pane pane, Side side) {
         Line wire = new Line();
         double offset = STROKE_WIDTH / 2;
+        
         switch (side) {
             case NORTH:
-                System.out.println("creating north link");
                 wire.startXProperty().bind(this.widthProperty().divide(2));
                 wire.startYProperty().bind(this.heightProperty().divide(2).add(offset));
                 wire.endXProperty().bind(this.widthProperty().divide(2));
@@ -222,8 +229,6 @@ public class GameNodeView extends Pane implements Observer {
                 return wire;
                     
             case EAST:
-                // Wire from center to right
-                System.out.println("creating east link");
                 wire.startXProperty().bind(this.widthProperty().divide(2));
                 wire.startYProperty().bind(this.heightProperty().divide(2));
                 wire.endXProperty().bind(this.widthProperty());
@@ -231,20 +236,16 @@ public class GameNodeView extends Pane implements Observer {
                 return wire;
                     
             case SOUTH:
-                // Wire from center to bottom
-                System.out.println("creating south link");
                 wire.startXProperty().bind(this.widthProperty().divide(2));
                 wire.startYProperty().bind(this.heightProperty().divide(2).subtract(offset));
                 wire.endXProperty().bind(this.widthProperty().divide(2));
-                wire.endYProperty().bind(this.heightProperty()); // To the bottom
+                wire.endYProperty().bind(this.heightProperty());
                 return wire;
                     
             case WEST:
-                // Wire from center to left
-                System.out.println("creating west link");
                 wire.startXProperty().bind(this.widthProperty().divide(2));
                 wire.startYProperty().bind(this.heightProperty().divide(2));
-                wire.endXProperty().set(0);  // To the left side
+                wire.endXProperty().set(0);
                 wire.endYProperty().bind(this.heightProperty().divide(2));
                 return wire;
                     
@@ -253,22 +254,17 @@ public class GameNodeView extends Pane implements Observer {
         }
     }
     
-    
+    @Override
     public void update(Observable observable) {
-        if(node.getType() != NodeType.EMPTY){
-            System.out.println("update na view");
-            if (observable instanceof GameNode gameNode) {
-                // change color of wire 
-                if (gameNode.isPowered()) {
-                    this.getStyleClass().remove(UNPOWERED_CLASS);
-                    this.getStyleClass().add(POWERED_CLASS);
-                } else {
-                    this.getStyleClass().remove(POWERED_CLASS);
-                    this.getStyleClass().add(UNPOWERED_CLASS);
-                }
+        if (observable instanceof GameNode gameNode) {
+            if (gameNode.getType() != NodeType.EMPTY) {
+                System.out.println("Updating node view, isPowered: " + gameNode.isPowered());
                 
-                System.out.println(node.getTurns() % 4);
-                int turns = node.getTurns() % 4; // Zabezpečí, že sa točí v rozsahu 0-3 (360°)
+                // Update power state styling
+                updatePowerStyles();
+                
+                // Handle rotation
+                int turns = node.getTurns() % 4; // Ensures rotation in range 0-3 (360°)
                 this.setRotate(turns * 90);
             }
         }

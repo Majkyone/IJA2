@@ -18,6 +18,8 @@ public class MainWindow extends Application {
     private  int cols = 10;
     private  int rows = 10;
     private  int leftPanelWidth = 150;
+    private GamePreviewWindowView gamePreview;
+
 
     @Override
     public void start(Stage primaryStage) {
@@ -91,6 +93,11 @@ public class MainWindow extends Application {
         primaryStage.setTitle("Game");
         primaryStage.setResizable(false);
         primaryStage.show();
+        primaryStage.setOnCloseRequest(event -> {
+            if (gamePreview != null && gamePreview.isShowing()) {
+                gamePreview.close();
+            }
+        });
     }
 
     private VBox createLeftPanel() {
@@ -130,7 +137,7 @@ public class MainWindow extends Application {
         Button previewButton = createButton("Preview Game", "previewButton");
         previewButton.setOnAction(event -> {
             System.out.println("PREVIEW");
-            GamePreviewWindowView gamePreview = new GamePreviewWindowView(game);
+            gamePreview = new GamePreviewWindowView(game);           
             gamePreview.show();
         });
 
