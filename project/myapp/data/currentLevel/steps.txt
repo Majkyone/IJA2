@@ -1,0 +1,3 @@
+B 3 3 WEST
+B 3 3 NORTH
+B 3 3 EAST

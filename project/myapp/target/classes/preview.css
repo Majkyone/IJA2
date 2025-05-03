@@ -1,0 +1,33 @@
+/* Rectangle základ pre každý uzol */
+.node-rectangle {
+    -fx-fill: #e0e0e0;
+    -fx-stroke: darkgray;
+    -fx-stroke-width: 1;
+    -fx-arc-width: 10;
+    -fx-arc-height: 10;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 5, 0.5, 0, 1);
+}
+
+/* Text zobrazený v strede uzla */
+.node-text {
+    -fx-font-size: 16px;
+    -fx-fill: #333333;
+    -fx-font-weight: bold;
+}
+
+.powered-node .node-rectangle {
+    -fx-fill: linear-gradient(from 0% 0% to 100% 100%, #4CAF50, #388E3C);
+    -fx-stroke: rgba(7, 7, 7, 0.521);
+}
+
+.unpowered-node .node-rectangle {
+    -fx-fill: linear-gradient(from 0% 0% to 100% 100%, #ffd56b, #ff8800);
+    -fx-stroke: rgba(7, 7, 7, 0.521);
+}
+
+.universal .node-rectangle{
+    -fx-fill: linear-gradient(from 0% 0% to 100% 100%, #25eae0, #3ebfcb);
+    -fx-stroke: rgba(7, 7, 7, 0.521);
+}
+
+
