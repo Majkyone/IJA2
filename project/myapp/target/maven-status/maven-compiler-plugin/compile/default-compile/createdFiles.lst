@@ -3,6 +3,7 @@ project/gui/GameNodeView$1.class
 project/gui/GameBoardView.class
 project/common/ToolField.class
 project/common/AbstractObservableField.class
+project/gui/GameNodePreviewView.class
 project/game/Game.class
 project/common/ToolEnvironment.class
 project/common/NodeType.class
@@ -11,5 +12,7 @@ project/common/Side.class
 project/common/Observable.class
 project/common/Observer.class
 project/game/Game$1.class
+project/gui/GameBoardPreviewView.class
 project/common/GameNode.class
+project/gui/GamePreviewWindowView.class
 project/common/Position.class

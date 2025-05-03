@@ -1,0 +1,22 @@
+/* Rectangle základ pre každý uzol */
+.node-rectangle {
+    -fx-fill: #e0e0e0;
+    -fx-stroke: #999999;
+    -fx-stroke-width: 1;
+    -fx-arc-width: 10;
+    -fx-arc-height: 10;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 5, 0.5, 0, 1);
+}
+
+/* Text zobrazený v strede uzla */
+.node-text {
+    -fx-font-size: 16px;
+    -fx-fill: #333333;
+    -fx-font-weight: bold;
+}
+
+/* Možné stavy – môžeš doplniť neskôr:
+.empty-node { ... }
+.power-node { ... }
+.bulb-node { ... }
+*/

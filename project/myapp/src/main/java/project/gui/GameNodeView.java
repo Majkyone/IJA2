@@ -267,7 +267,7 @@ public class GameNodeView extends Pane implements Observer {
                     this.getStyleClass().add(UNPOWERED_CLASS);
                 }
                 
-                System.out.println(node.getNumberOfturns() % 4);
+                System.out.println(node.getTurns() % 4);
                 int turns = node.getTurns() % 4; // Zabezpečí, že sa točí v rozsahu 0-3 (360°)
                 this.setRotate(turns * 90);
             }

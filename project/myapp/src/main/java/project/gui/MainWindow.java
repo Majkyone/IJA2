@@ -55,6 +55,10 @@ public class MainWindow extends Application {
         game.createLinkNode(position3, sides3);
         game.init();
 
+        Position position10 = new Position(3, 6);
+        Side [] sides10 = {Side.SOUTH, Side.EAST, Side.WEST};
+        game.createLinkNode(position10, sides10);
+
         Position position8 = new Position(4, 3);
         Side  sides8 = Side.NORTH;
         game.createBulbNode(position8, sides8);
@@ -93,30 +97,60 @@ public class MainWindow extends Application {
         VBox leftPanel = new VBox();
         leftPanel.setSpacing(10);
 
-        Button levelButton = new Button("Level 1");
-        levelButton.setId("levelButton");
-        levelButton.setMaxWidth(Double.MAX_VALUE);
-        levelButton.setMinWidth(Region.USE_PREF_SIZE);
-        levelButton.setWrapText(true);
+        Button levelButton = createButton("Level 1", "levelButton");
         levelButton.setOnAction(event -> {
             // logika pre level
         });
 
-        Button resetButton = new Button("Reset Game");
-        resetButton.setMaxWidth(Double.MAX_VALUE);
-        resetButton.setMinWidth(Region.USE_PREF_SIZE);
-        resetButton.setWrapText(true);
-        resetButton.setId("resetButton");
-        resetButton.setOnAction(event -> {
-            game.init();
+        Button levelButton2 = createButton("Level 2", "levelButton");
+        levelButton2.setOnAction(event -> {
+            // logika pre level
         });
 
-        leftPanel.getChildren().addAll(levelButton, resetButton);
+        Button levelButton3 = createButton("Level 3", "levelButton");
+        levelButton3.setOnAction(event -> {
+            // logika pre level
+        });
+
+        Button levelButton4 = createButton("Level 4", "levelButton");
+        levelButton4.setOnAction(event -> {
+            // logika pre level
+        });
+
+        Button importButton = createButton("Import Game", "importButton");
+        importButton.setOnAction(event -> {
+            // logika pre level
+        });
+
+        Button exportButton = createButton("Export Game", "exportButton");
+        exportButton.setOnAction(event -> {
+            // logika pre level
+        });
+
+        Button previewButton = createButton("Preview Game", "previewButton");
+        previewButton.setOnAction(event -> {
+            System.out.println("PREVIEW");
+            GamePreviewWindowView gamePreview = new GamePreviewWindowView(game);
+            gamePreview.show();
+        });
+
+      
+
+        leftPanel.getChildren().addAll(levelButton, levelButton2, levelButton3, levelButton4, importButton, exportButton, previewButton);
         leftPanel.setMinWidth(leftPanelWidth);
         return leftPanel;
     }
 
     public static void main(String[] args) {
         launch(args);
+    }
+
+    private Button createButton(String label, String group){
+        Button button = new Button(label);
+        button.setId(group);
+        button.setMaxWidth(Double.MAX_VALUE);
+        button.setMinWidth(Region.USE_PREF_SIZE);
+        button.setWrapText(true);
+        return button;
     }
 }

@@ -163,11 +163,12 @@ public class GameNode extends AbstractObservableField {
      * Returns the number of turns, considering the type of sides the node has.
      * @return The number of turns (either 0 or 1 based on the sides).
      */
-    public int getNumberOfturns() {
+    public int getNumberOfTurns() {
+
         if (getNumberOfSides() == 2 && side[0].opposite() == side[1]) {
             return this.numberOfTurns % 2;
         } else {
-            return (this.numberOfTurns + 2) % 4;
+            return (4 - (this.numberOfTurns % 4)) % 4;
         }
     }
 

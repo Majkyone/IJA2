@@ -1,13 +1,13 @@
 /* Štýl pre ľavý panel */
 #leftPanel {
-    -fx-background-color: #f8f9fa;
+    -fx-background-color: #f3f2f2;
     -fx-padding: 2em;
     -fx-spacing: 1.5em;
     -fx-alignment: center;
 }
 
 /* Základný štýl pre tlačidlá */
-#levelButton, #resetButton {
+#levelButton{
     -fx-padding: 0.5em 1.5em; /* vertikálne | horizontálne */
     -fx-font-size: 1em;
     -fx-font-weight: bold;
@@ -22,6 +22,42 @@
     -fx-max-width: Infinity; /* Tlačidlo sa môže roztiahnuť podľa potreby */
 }
 
+#importButton, #exportButton{
+    -fx-padding: 0.5em 1.5em; /* vertikálne | horizontálne */
+    -fx-font-size: 1em;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-background-color: linear-gradient(to bottom, #4ca2af, #388e8a);
+    -fx-background-radius: 0.5em;
+    -fx-border-radius: 0.5em;
+    -fx-effect: dropshadow(one-pass-box, rgba(0, 0, 0, 0.2), 5, 0, 0, 2);
+    -fx-cursor: hand;
+    -fx-alignment: center;
+    -fx-wrap-text: true;
+    -fx-max-width: Infinity; /* Tlačidlo sa môže roztiahnuť podľa potreby */
+}
+
+#previewButton{
+    fx-padding: 0.5em 1.5em; /* vertikálne | horizontálne */
+    -fx-font-size: 1em;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-background-color: linear-gradient(to bottom, #9a2ba9, #66388e);
+    -fx-background-radius: 0.5em;
+    -fx-border-radius: 0.5em;
+    -fx-effect: dropshadow(one-pass-box, rgba(0, 0, 0, 0.2), 5, 0, 0, 2);
+    -fx-cursor: hand;
+    -fx-alignment: center;
+    -fx-wrap-text: true;
+    -fx-max-width: Infinity; /* Tlačidlo sa môže roztiahnuť podľa potreby */
+}
+#importButton:hover, #exportButton:hover{
+    -fx-background-color: linear-gradient(to bottom, #408792, #286764);
+}
+
+#previewButton:hover{
+    -fx-background-color: linear-gradient(to bottom, #7a2285, #452660);
+}
 
 /* Hover efekt */
 #levelButton:hover, #resetButton:hover {
