@@ -9,6 +9,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -62,8 +63,9 @@ public class MainWindow extends Application {
         tileSize * rows + extraHeight);
         
         scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
+        primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/Icon.png")));
         primaryStage.setScene(scene);
-        primaryStage.setTitle("Game");
+        primaryStage.setTitle("Electrician");
         primaryStage.setResizable(false);
         primaryStage.show();
         primaryStage.setOnCloseRequest(event -> {
@@ -77,7 +79,7 @@ public class MainWindow extends Application {
         VBox leftPanel = new VBox();
         leftPanel.setSpacing(10);
 
-        Text headline = new Text("CONTROLS");
+        Text headline = new Text("MENU");
         headline.getStyleClass().add("headline");
 
         Button levelButton = createButton("Level 1", "levelButton");

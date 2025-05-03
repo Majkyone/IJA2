@@ -101,7 +101,7 @@ public class GameNodePreviewView extends Pane implements Observer {
                 nodeText.setText(String.valueOf(turnsToBeGood));
                 
                 // Debug output
-                System.out.println("Node updated: " + gameNode.getType() + ", turns left: " + turnsToBeGood);
+               // System.out.println("Node updated: " + gameNode.getType() + ", turns left: " + turnsToBeGood);
                 
                 // Update styles based on current state - removed the sides.length check
                 updateNodeStyle();

@@ -55,10 +55,10 @@ public class GameNodeView extends Pane implements Observer {
         if (node.getType() != NodeType.EMPTY) {
             if (node.isPowered()) {
                 this.getStyleClass().add(POWERED_CLASS);
-                System.out.println("Adding POWERED class, isPowered: " + node.isPowered());
+                //System.out.println("Adding POWERED class, isPowered: " + node.isPowered());
             } else {
                 this.getStyleClass().add(UNPOWERED_CLASS);
-                System.out.println("Adding UNPOWERED class, isPowered: " + node.isPowered());
+                //System.out.println("Adding UNPOWERED class, isPowered: " + node.isPowered());
             }
         }
     }
@@ -209,7 +209,7 @@ public class GameNodeView extends Pane implements Observer {
         // Create source symbol - smaller circle with wave
         Group sourceSymbol = new Group();
     
-        Circle circle = new Circle(10);
+        Circle circle = new Circle(12);
         circle.setStroke(Color.BLACK);
         circle.setFill(Color.TRANSPARENT);
         circle.setStrokeWidth(2);
@@ -279,7 +279,7 @@ public class GameNodeView extends Pane implements Observer {
     public void update(Observable observable) {
         if (observable instanceof GameNode gameNode) {
             if (gameNode.getType() != NodeType.EMPTY) {
-                System.out.println("Updating node view, isPowered: " + gameNode.isPowered());
+                //System.out.println("Updating node view, isPowered: " + gameNode.isPowered());
                 
                 // Update power state styling
                 updatePowerStyles();

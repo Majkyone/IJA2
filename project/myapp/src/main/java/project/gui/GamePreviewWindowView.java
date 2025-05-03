@@ -52,7 +52,7 @@ public class GamePreviewWindowView extends Stage {
         Label legendTitle = new Label("Legend");
         legendTitle.setStyle("-fx-font-weight: bold; -fx-font-size: 14;");
 
-        Label legendSubTitle = new Label("Each number represents number of turns to achive good conncetion");
+        Label legendSubTitle = new Label("Each number represents number of turns left to achive good conncetion");
         legendSubTitle.setStyle("-fx-font-size: 12; -fx-text-fill:rgb(217, 62, 62);");
 
         
