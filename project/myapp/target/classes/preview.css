@@ -17,12 +17,17 @@
 
 .powered-node .node-rectangle {
     -fx-fill: linear-gradient(from 0% 0% to 100% 100%, #4CAF50, #388E3C);
-    -fx-stroke: #0f5f0f;
+    -fx-stroke: rgba(7, 7, 7, 0.521);
 }
 
 .unpowered-node .node-rectangle {
     -fx-fill: linear-gradient(from 0% 0% to 100% 100%, #ffd56b, #ff8800);
-    -fx-stroke: #cc6a00;
+    -fx-stroke: rgba(7, 7, 7, 0.521);
+}
+
+.universal .node-rectangle{
+    -fx-fill: linear-gradient(from 0% 0% to 100% 100%, #25eae0, #3ebfcb);
+    -fx-stroke: rgba(7, 7, 7, 0.521);
 }
 
 

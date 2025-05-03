@@ -4,7 +4,7 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import project.common.GameNode;
-import project.common.NodeType;
+
 import project.game.Game;
 
 public class GameBoardPreviewView extends GridPane{

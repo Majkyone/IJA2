@@ -81,6 +81,11 @@ public class GameNodePreviewView extends Pane implements Observer {
         pane.heightProperty().addListener((obs, oldVal, newVal) -> {
             nodeText.setY((newVal.doubleValue() + nodeText.getLayoutBounds().getHeight()) / 2);
         });
+
+        if (this.node.getSides().length == 4) {
+            nodeText.setText("");
+            pane.getStyleClass().add("universal");
+        }
         
         // Add elements to the panel
         pane.getChildren().addAll(rectangle, nodeText);
