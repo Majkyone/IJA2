@@ -89,14 +89,14 @@ B 6 5 NORTH
 
 # App
 ## Intro
-![Intro](/media/intro.png)
+![Intro](./media/intro.png)
 
 ## Level
-![Intro](/media/level.png)
+![Intro](./media/level.png)
 
 ## Preview
-![Intro](/media/preview.png)
+![Intro](./media/preview.png)
 
 ## Win
-![Intro](/media/win.png)
+![Intro](./media/win.png)
 
