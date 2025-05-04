@@ -13,6 +13,15 @@ import javafx.scene.shape.StrokeLineCap;
 import javafx.scene.shape.Path;
 import javafx.scene.Group;
 
+/**
+ * The {@link GameNodeView} class represents the visual representation of a {@link GameNode} in the game.
+ * <p>
+ * This class is responsible for displaying the graphical representation of different types of game nodes
+ * on the game board. It uses various shapes like rectangles, circles, and lines to represent nodes such as
+ * wires, bulbs, sources, and empty nodes. The view dynamically updates based on the node's state, 
+ * including whether it is powered or unpowered. It also handles the rotation of nodes and adds CSS styling.
+ * This class implements the {@link Observer} interface to respond to changes in the {@link GameNode}.
+ */
 public class GameNodeView extends Pane implements Observer {
     private final GameNode node;
     private Rectangle rectangle;
@@ -22,47 +31,51 @@ public class GameNodeView extends Pane implements Observer {
     private static final String UNPOWERED_CLASS = "unpowered-node";
     private final double STROKE_WIDTH = 5.0;
     
+    /**
+     * Constructs a {@link GameNodeView} for the given {@link GameNode}.
+     * 
+     * @param node The {@link GameNode} to be visualized.
+     */
     public GameNodeView(GameNode node) {
         this.node = node;
         
-        // Add view as observer
         if (node instanceof Observable observable) {
             observable.addObserver(this);
         }
         
-        // Add CSS
         this.getStylesheets().add(getClass().getResource("/gamenode.css").toExternalForm());
         
-        // Add base class for all nodes
         this.getStyleClass().add("game-node");
         
-        // Apply initial power state classes
         updatePowerStyles();
-        
-        // Create and add the appropriate node representation
+
         this.getChildren().addAll(createNode());
     }
     
     /**
-     * Updates the node's style classes based on its current power state
+     * Updates the node's style classes based on its current power state.
+     * If the node is powered, it applies the 'powered-node' class,
+     * otherwise it applies the 'unpowered-node' class.
      */
     private void updatePowerStyles() {
-        // First remove both classes to ensure clean state
+        
         this.getStyleClass().remove(POWERED_CLASS);
         this.getStyleClass().remove(UNPOWERED_CLASS);
         
-        // Only apply power styling to non-empty nodes
         if (node.getType() != NodeType.EMPTY) {
             if (node.isPowered()) {
                 this.getStyleClass().add(POWERED_CLASS);
-                //System.out.println("Adding POWERED class, isPowered: " + node.isPowered());
             } else {
                 this.getStyleClass().add(UNPOWERED_CLASS);
-                //System.out.println("Adding UNPOWERED class, isPowered: " + node.isPowered());
             }
         }
     }
     
+    /**
+     * Creates the appropriate visual representation for the {@link GameNode} based on its type.
+     * 
+     * @return A {@link Pane} containing the graphical elements representing the node.
+     */
     private Pane createNode() {
         switch (node.getType()) {
             case EMPTY:
@@ -78,6 +91,11 @@ public class GameNodeView extends Pane implements Observer {
         }
     }
     
+    /**
+     * Creates the graphical representation for an empty node.
+     * 
+     * @return A {@link Pane} containing a rectangle representing the empty node.
+     */
     private Pane createEmptyNode() {
         Pane pane = new Pane();
         // Apply style classes
@@ -93,14 +111,17 @@ public class GameNodeView extends Pane implements Observer {
         return pane;
     }
     
+    /**
+     * Adds a wire to the node's pane.
+     * 
+     * @param pane The pane to which the wire will be added.
+     * @param wire The wire to be added.
+     */
     private void addWireToPane(Pane pane, Line wire) {
-        // Increase stroke width for better visibility
         wire.setStrokeWidth(STROKE_WIDTH);
         
-        // Apply wire style class
         wire.getStyleClass().add("wire-line");
         
-        // Ensure lines extend to edges by adjusting start/end caps
         wire.setStrokeLineCap(StrokeLineCap.BUTT);
 
         wire.toFront();
@@ -108,6 +129,11 @@ public class GameNodeView extends Pane implements Observer {
         pane.getChildren().add(wire);
     }
     
+    /**
+     * Creates the graphical representation for a wire node.
+     * 
+     * @return A {@link Pane} containing the graphical elements representing the wire node.
+     */
     private Pane createLinkNode() {
         Pane pane = new Pane();
         pane.setId("node");
@@ -131,6 +157,11 @@ public class GameNodeView extends Pane implements Observer {
         return pane;
     }
 
+    /**
+     * Creates the graphical representation for a bulb node.
+     * 
+     * @return A {@link Pane} containing the graphical elements representing the bulb node.
+     */
     private Pane createBulbNode() {
         Pane pane = new Pane();
         pane.setId("node");
@@ -186,6 +217,11 @@ public class GameNodeView extends Pane implements Observer {
         return pane;
     }
 
+     /**
+     * Creates the graphical representation for a source node.
+     * 
+     * @return A {@link Pane} containing the graphical elements representing the source node.
+     */
     private Pane createSourceNode() {
         Pane pane = new Pane();
         pane.setId("node");
@@ -237,6 +273,13 @@ public class GameNodeView extends Pane implements Observer {
         return pane;
     }
     
+    /**
+     * Creates a wire for a specific side of the node.
+     * 
+     * @param pane The pane that will contain the wire.
+     * @param side The side for which to create the wire.
+     * @return A {@link Line} representing the wire, or null if no wire should be created.
+     */
     private Line createWireForSide(Pane pane, Side side) {
         Line wire = new Line();
         double offset = STROKE_WIDTH / 2;
@@ -275,13 +318,20 @@ public class GameNodeView extends Pane implements Observer {
         }
     }
     
+    /**
+     * The {@link update} method is called when the {@link GameNode} is updated. 
+     * It is responsible for reacting to changes in the {@link GameNode} and updating 
+     * the view accordingly. This includes updating the node's power state styling 
+     * and handling any rotation changes. The rotation is handled by determining the 
+     * number of turns (modulo 4) and applying the corresponding rotation in degrees 
+     * (90°, 180°, 270°, 360°).
+     * 
+     * @param observable The observable object that triggered the update, in this case, a {@link GameNode}.
+     */
     @Override
     public void update(Observable observable) {
         if (observable instanceof GameNode gameNode) {
             if (gameNode.getType() != NodeType.EMPTY) {
-                //System.out.println("Updating node view, isPowered: " + gameNode.isPowered());
-                
-                // Update power state styling
                 updatePowerStyles();
                 
                 // Handle rotation

@@ -151,6 +151,14 @@ public class GameNode extends AbstractObservableField {
         notifyObservers();
     }
 
+    /**
+     * Rotates the node counterclockwise by one step.
+     *
+     * This method shifts each side of the node 270 degrees clockwise (equivalent to one
+     * counterclockwise rotation). It then decrements the number of rotations performed,
+     * reorders the sides to a fixed directional order (NORTH, EAST, SOUTH, WEST), and
+     * notifies all observers about the state change.
+     */
     public void turnReverse() {
         int i = 0;
         for (Side side : this.side) {
@@ -184,6 +192,11 @@ public class GameNode extends AbstractObservableField {
         }
     }
 
+    /**
+     * Returns the number of times the node has been rotated.
+     *
+     * @return the number of rotations performed on the node.
+     */
     public int getTurns(){
         return this.numberOfTurns;
     }

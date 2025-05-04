@@ -6,6 +6,14 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextBoundsType;
 import project.common.*;
 
+/**
+ * The {@link GameNodePreviewView} class represents a visual preview of a {@link GameNode}.
+ * <p>
+ * This class is responsible for displaying a preview of a game node in the game board. It
+ * uses a rectangle to represent the node and text to display the number of turns remaining
+ * before the node becomes "good". The view updates its style dynamically based on the node's state.
+ * It also implements the {@link Observer} interface to respond to changes in the {@link GameNode}.
+ */
 public class GameNodePreviewView extends Pane implements Observer {
     private GameNode node;
     private Rectangle rectangle;
@@ -15,6 +23,11 @@ public class GameNodePreviewView extends Pane implements Observer {
     private static final String POWERED_CLASS = "powered-node";
     private static final String UNPOWERED_CLASS = "unpowered-node";
     
+    /**
+     * Creates a new preview view for the given {@link GameNode}.
+     * 
+     * @param node The {@link GameNode} to be displayed.
+     */
     public GameNodePreviewView(GameNode node) {
         this.node = node;
         turnsToBeGood = this.node.getNumberOfTurns();
@@ -31,7 +44,10 @@ public class GameNodePreviewView extends Pane implements Observer {
     }
     
     /**
-     * Update the node's style based on its current state
+     * Updates the node's style based on its current state.
+     * <p>
+     * This method applies the appropriate CSS class to the node depending on whether the node is powered
+     * or unpowered, and based on the number of turns remaining.
      */
     private void updateNodeStyle() {
         // First clear any existing style classes
@@ -48,6 +64,14 @@ public class GameNodePreviewView extends Pane implements Observer {
         }
     }
     
+    /**
+     * Creates the visual representation of the node.
+     * <p>
+     * This method creates a {@link Pane} containing a rectangle that represents the node and
+     * text displaying the number of turns remaining before the node becomes "good".
+     * 
+     * @return The {@link Pane} representing the game node.
+     */
     public Pane createNode() {
         Pane pane = new Pane();
         pane.getStyleClass().add(this.node.getType().swichSideToString());
@@ -92,6 +116,14 @@ public class GameNodePreviewView extends Pane implements Observer {
         return pane;
     }
     
+     /**
+     * Updates the view when the observed {@link GameNode} changes.
+     * <p>
+     * This method is called whenever the observed node is updated. It refreshes the text and 
+     * style of the node preview based on the node's new state.
+     * 
+     * @param observable The {@link Observable} object that was updated (in this case, the {@link GameNode}).
+     */
     @Override
     public void update(Observable observable) {
         if (observable instanceof GameNode gameNode) {
@@ -99,11 +131,6 @@ public class GameNodePreviewView extends Pane implements Observer {
             if (gameNode.getType() != NodeType.EMPTY && gameNode.getSides().length < 4) {
                 turnsToBeGood = gameNode.getNumberOfTurns();
                 nodeText.setText(String.valueOf(turnsToBeGood));
-                
-                // Debug output
-               // System.out.println("Node updated: " + gameNode.getType() + ", turns left: " + turnsToBeGood);
-                
-                // Update styles based on current state - removed the sides.length check
                 updateNodeStyle();
             }
         }

@@ -4,11 +4,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 import project.common.*;
+/**
+ * The {@link GameLoader} class is responsible for loading game configuration from a file
+ * and setting up a game board accordingly.
+ * <p>
+ * It reads the game grid dimensions and node definitions from a specified file,
+ * then processes each node type (Link, Bulb, Power) and its respective position and sides.
+ */
 public class GameLoader {
     public int x;
     public int y;
     public Object[][] def;
     public List<Position> filledPositions = new ArrayList<>();
+    /**
+     * Constructs a {@link GameLoader} to load the game configuration from the specified file.
+     * 
+     * @param fileString The path to the file containing the game configuration.
+     * @throws IOException If there is an error reading the file.
+     */
     public GameLoader(String fileString){
         File file = new File(fileString);
         List<Object[]> dataList = new ArrayList<>();
@@ -43,6 +56,14 @@ public class GameLoader {
             e.printStackTrace();
         }
     }
+      /**
+     * Sets up the game by creating nodes on the game grid based on the loaded configuration.
+     * <p>
+     * This method iterates through the node definitions and creates the appropriate nodes
+     * (link, bulb, or power) at their specified positions, attaching the corresponding sides.
+     * 
+     * @param game The {@link Game} instance where the nodes will be created.
+     */
     public void SetUpGame(Game game){
         for (Object[] n : def) {
             String type = (String) n[0];

@@ -7,10 +7,23 @@ import project.common.GameNode;
 
 import project.game.Game;
 
+/**
+ * The {@link GameBoardPreviewView} class represents a graphical preview of the game board.
+ * <p>
+ * It extends {@link GridPane} and provides a visual representation of the game grid,
+ * displaying each {@link GameNode} on the board in a grid layout. This class is used 
+ * to generate a preview of the game board's current state, allowing users to view 
+ * the layout of the game at any given point.
+ */
 public class GameBoardPreviewView extends GridPane{
     private final Game game;
     private final int tileSize = 50;
 
+    /**
+     * Creates a new {@link GameBoardPreviewView} for the given game.
+     * 
+     * @param game The {@link Game} whose board will be displayed.
+     */
     public GameBoardPreviewView(Game game) {
         this.game = game;
         this.setMinSize(tileSize * game.cols(), tileSize * game.rows());
@@ -19,6 +32,12 @@ public class GameBoardPreviewView extends GridPane{
         drawGameBoard();
     }
 
+    /**
+     * Draws the game board by setting up the grid layout and adding the node previews.
+     * It initializes the grid by adjusting the column and row constraints based on 
+     * the number of rows and columns in the game. Each {@link GameNode} is represented 
+     * by a {@link GameNodePreviewView} added to the grid.
+     */
     private void drawGameBoard() {
         GameNode[][] grid = game.getGame();
 

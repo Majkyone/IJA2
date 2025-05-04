@@ -1,0 +1,52 @@
+@options
+@packages
+-classpath
+'/Users/samuelkundrat/.m2/repository/org/openjfx/javafx-controls/21.0.1/javafx-controls-21.0.1.jar:/Users/samuelkundrat/.m2/repository/org/openjfx/javafx-controls/21.0.1/javafx-controls-21.0.1-mac-aarch64.jar:/Users/samuelkundrat/.m2/repository/org/openjfx/javafx-graphics/21.0.1/javafx-graphics-21.0.1.jar:/Users/samuelkundrat/.m2/repository/org/openjfx/javafx-base/21.0.1/javafx-base-21.0.1.jar:/Users/samuelkundrat/.m2/repository/org/openjfx/javafx-base/21.0.1/javafx-base-21.0.1-mac-aarch64.jar:/Users/samuelkundrat/.m2/repository/org/openjfx/javafx-graphics/21.0.1/javafx-graphics-21.0.1-mac-aarch64.jar'
+-encoding
+'UTF-8'
+-protected
+-source
+'21'
+-sourcepath
+'/Users/samuelkundrat/VUT_FIT/4.semester/IJA/du2/project/myapp/src/main/java:/Users/samuelkundrat/VUT_FIT/4.semester/IJA/du2/project/myapp/target/generated-sources/annotations'
+-author
+-bottom
+'Copyright &#169; 2025. All rights reserved.'
+-charset
+'UTF-8'
+-d
+'/Users/samuelkundrat/VUT_FIT/4.semester/IJA/du2/project/myapp/target/site/apidocs'
+-docencoding
+'UTF-8'
+-Xdoclint:none
+-doctitle
+'myapp 1.0-SNAPSHOT API'
+-use
+-version
+-windowtitle
+'myapp 1.0-SNAPSHOT API'
+project.game
+project.common
+project.gui
+/Users/samuelkundrat/.m2/repository/org/openjfx/javafx-controls/21.0.1/javafx-controls-21.0.1.jar = 1697565369000
+/Users/samuelkundrat/.m2/repository/org/openjfx/javafx-controls/21.0.1/javafx-controls-21.0.1-mac-aarch64.jar = 1697565396000
+/Users/samuelkundrat/.m2/repository/org/openjfx/javafx-graphics/21.0.1/javafx-graphics-21.0.1.jar = 1697565424000
+/Users/samuelkundrat/.m2/repository/org/openjfx/javafx-base/21.0.1/javafx-base-21.0.1.jar = 1697565344000
+/Users/samuelkundrat/.m2/repository/org/openjfx/javafx-base/21.0.1/javafx-base-21.0.1-mac-aarch64.jar = 1697565354000
+/Users/samuelkundrat/.m2/repository/org/openjfx/javafx-graphics/21.0.1/javafx-graphics-21.0.1-mac-aarch64.jar = 1697565456000
+/Users/samuelkundrat/VUT_FIT/4.semester/IJA/du2/project/myapp/src/main/java = 1746090616296
+/Users/samuelkundrat/VUT_FIT/4.semester/IJA/du2/project/myapp/target/generated-sources/annotations = 1746366141912
+/Users/samuelkundrat/VUT_FIT/4.semester/IJA/du2/project/myapp/target/site/apidocs/tag-search-index.js = 1746366144090
+/Users/samuelkundrat/VUT_FIT/4.semester/IJA/du2/project/myapp/target/site/apidocs/overview-tree.html = 1746366144077
+/Users/samuelkundrat/VUT_FIT/4.semester/IJA/du2/project/myapp/target/site/apidocs/module-search-index.js = 1746366144088
+/Users/samuelkundrat/VUT_FIT/4.semester/IJA/du2/project/myapp/target/site/apidocs/index.html = 1746366144078
+/Users/samuelkundrat/VUT_FIT/4.semester/IJA/du2/project/myapp/target/site/apidocs/package-search-index.js = 1746366144089
+/Users/samuelkundrat/VUT_FIT/4.semester/IJA/du2/project/myapp/target/site/apidocs/index-all.html = 1746366144099
+/Users/samuelkundrat/VUT_FIT/4.semester/IJA/du2/project/myapp/target/site/apidocs/allpackages-index.html = 1746366144087
+/Users/samuelkundrat/VUT_FIT/4.semester/IJA/du2/project/myapp/target/site/apidocs/member-search-index.js = 1746366144089
+/Users/samuelkundrat/VUT_FIT/4.semester/IJA/du2/project/myapp/target/site/apidocs/overview-summary.html = 1746366144100
+/Users/samuelkundrat/VUT_FIT/4.semester/IJA/du2/project/myapp/target/site/apidocs/help-doc.html = 1746366144102
+/Users/samuelkundrat/VUT_FIT/4.semester/IJA/du2/project/myapp/target/site/apidocs/element-list = 1746366144026
+/Users/samuelkundrat/VUT_FIT/4.semester/IJA/du2/project/myapp/target/site/apidocs/search.html = 1746366144100
+/Users/samuelkundrat/VUT_FIT/4.semester/IJA/du2/project/myapp/target/site/apidocs/allclasses-index.html = 1746366144086
+/Users/samuelkundrat/VUT_FIT/4.semester/IJA/du2/project/myapp/target/site/apidocs/type-search-index.js = 1746366144089

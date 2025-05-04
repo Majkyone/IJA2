@@ -18,12 +18,32 @@ import project.common.*;
 import project.game.*;
 import javafx.scene.layout.Region;
 import javafx.util.Duration;
-
-
-
 import javafx.scene.Node;
 
 
+/**
+ * The {@link MainWindow} class is the main window of the Electrician game application.
+ * It extends {@link Application} and is responsible for initializing the user interface and handling user interactions.
+ * <p>
+ * This class sets up the game environment, including creating the game grid, loading game levels, and displaying
+ * the current game state. It also handles UI components such as buttons for loading a game, starting new levels, 
+ * and undoing or redoing actions.
+ * </p>
+ * <p>
+ * The class uses a {@link BorderPane} layout to organize the game interface. The left panel contains a menu for
+ * selecting levels, undo/redo actions, and previewing the game. The center is dynamically updated to display the
+ * game board or an introduction screen.
+ * </p>
+ * <p>
+ * The {@link MainWindow} class integrates with the game logic, provided by the {@link Game} class, to control the
+ * flow of the game. It manages game progress, updates the view accordingly, and reacts to user actions such as 
+ * clicking on game tiles or selecting different levels.
+ * </p>
+ * 
+ * @see Game
+ * @see GameBoardView
+ * @see GamePreviewWindowView
+ */
 public class MainWindow extends Application {
     private Game game;
     private  int tileSize = 50;
@@ -37,6 +57,12 @@ public class MainWindow extends Application {
     private Button undoButton;
     private Button redoButton;
 
+    /**
+     * The entry point for the Electrician game application. Initializes the game and the primary stage.
+     * Sets up the user interface, including the game board and menu, and handles stage setup.
+     * 
+     * @param primaryStage The primary stage for the game application.
+     */
     @Override
     public void start(Stage primaryStage) {
         game = Game.create(cols, rows);
@@ -51,7 +77,6 @@ public class MainWindow extends Application {
         mainLayout.setCenter(intro);
 
 
-        // buffer na rám + title bar
         int extraWidth = 16;
         int extraHeight = 39;
         
@@ -73,6 +98,12 @@ public class MainWindow extends Application {
         });
     }
 
+    /**
+     * Creates the left panel containing the menu options such as level selection, undo, redo, and load game buttons.
+     * The left panel is added to the main layout of the game window.
+     * 
+     * @return A {@link VBox} representing the left panel.
+     */
     private VBox createLeftPanel() {
         VBox leftPanel = new VBox();
         leftPanel.setSpacing(10);
@@ -82,31 +113,49 @@ public class MainWindow extends Application {
 
         Button levelButton = createButton("Level 1", "levelButton");
         levelButton.setOnAction(event -> {
+            undoButton.setVisible(false);
+            redoButton.setVisible(false);
             LoadGame(1);
         });
 
         Button levelButton2 = createButton("Level 2", "levelButton");
         levelButton2.setOnAction(event -> {
+            undoButton.setVisible(false);
+            redoButton.setVisible(false);
             LoadGame(2);
         });
 
         Button levelButton3 = createButton("Level 3", "levelButton");
         levelButton3.setOnAction(event -> {
+            undoButton.setVisible(false);
+            redoButton.setVisible(false);
             LoadGame(3);
         });
 
         Button levelButton4 = createButton("Level 4", "levelButton");
         levelButton4.setOnAction(event -> {
+            undoButton.setVisible(false);
+            redoButton.setVisible(false);
             LoadGame(4);
         });
 
         Button loadButton = createButton("Load Last Game", "loadButton");
         loadButton.setOnAction(event -> {
+            this.game.setWin(false);
             undoButton.setVisible(true);
             redoButton.setVisible(true);
             GameLoader loader = new GameLoader("data/currentLevel/levelData.txt");
             game = Game.create(loader.x, loader.y);
             loader.SetUpGame(game);
+            //lambda implmentation of onGameWin(boolean isWin)
+            game.addGameWinListener(isWin -> {
+                if (isWin) {
+                    int currentLevel = 1; 
+                    // after load next level ist first
+                    Pane winPane = createWinMessage(currentLevel);
+                    mainLayout.setCenter(winPane);
+                }
+            });
             game.init();
 
             gameBoardView = new GameBoardView(game, undoButton, redoButton);
@@ -118,8 +167,8 @@ public class MainWindow extends Application {
         previewButton.setOnAction(event -> {
             System.out.println("PREVIEW");
             if (gamePreview != null && gamePreview.isShowing()) {
-                gamePreview.toFront(); // Zobrazí už otvorené okno na popredí
-                return; // Ukončíme metódu, aby sa nezobrazovalo nové okno
+                gamePreview.toFront(); 
+                return; 
             }
             gamePreview = new GamePreviewWindowView(game);           
             gamePreview.show();
@@ -143,12 +192,17 @@ public class MainWindow extends Application {
         launch(args);
     }
 
+    /**
+     * Creates an introductory screen that gives the player a brief description of the game and shows a preview
+     * of the game elements (such as a wire, bulb, and source).
+     * 
+     * @return A {@link Pane} containing the introductory screen.
+     */
     private Pane createIntro() {
-        VBox mainContainer = new VBox(20); // Increased vertical spacing between sections
+        VBox mainContainer = new VBox(20); 
         mainContainer.setAlignment(Pos.CENTER);
         mainContainer.setPadding(new Insets(40, 30, 40, 30));
         
-        // Title and subtitle in a VBox with centered text
         VBox textContainer = new VBox(10);
         textContainer.setAlignment(Pos.CENTER);
         
@@ -160,7 +214,6 @@ public class MainWindow extends Application {
         
         textContainer.getChildren().addAll(title, subtitle);
         
-        // Create nodes with their components
         Side[] wireConnectors = {Side.NORTH, Side.SOUTH, Side.EAST};
         GameNode wire = new GameNode(1, 1, NodeType.WIRE, wireConnectors);
         
@@ -171,12 +224,10 @@ public class MainWindow extends Application {
         GameNode source = new GameNode(1, 1, NodeType.SOURCE, sourceConnectors);
         source.setPowered(true);
         
-        // Create views for the nodes
         GameNodeView wireNode = new GameNodeView(wire);
         GameNodeView bulbNode = new GameNodeView(bulb);
         GameNodeView sourceNode = new GameNodeView(source);
         
-        // Set fixed size for all nodes
         wireNode.setPrefSize(60, 60);
         bulbNode.setPrefSize(60, 60);
         sourceNode.setPrefSize(60, 60);
@@ -192,29 +243,36 @@ public class MainWindow extends Application {
         sourceNode.setOnMouseClicked(event -> {
             source.turn();
         });
-        // Create containers for each node with labels
+        
         VBox wireContainer = createNodeWithLabel(wireNode, "Wire");
         VBox bulbContainer = createNodeWithLabel(bulbNode, "Bulb");
         VBox sourceContainer = createNodeWithLabel(sourceNode, "Source");
         
-        // Create horizontal layout for all nodes
-        HBox nodesContainer = new HBox(20); // 20 = spacing between nodes
+        
+        HBox nodesContainer = new HBox(20); 
         nodesContainer.setAlignment(Pos.CENTER);
         nodesContainer.getChildren().addAll(wireContainer, bulbContainer, sourceContainer);
         
-        // Add everything to the main container
+        
         mainContainer.getChildren().addAll(textContainer, nodesContainer);
         
         Pane pane = new Pane();
         pane.getChildren().add(mainContainer);
         
-        // Center the main container in the pane
+        
         mainContainer.layoutXProperty().bind(pane.widthProperty().subtract(mainContainer.widthProperty()).divide(2));
         
         return pane;
     }
-
-// Helper method to create a node with its label
+    
+    /**
+     * Helper method to create a container for a game node view along with a label.
+     * The label displays the name of the node (e.g., "Wire", "Bulb", etc.).
+     * 
+     * @param nodeView The node view to be displayed.
+     * @param labelText The label text to describe the node.
+     * @return A {@link VBox} containing the node view and its label.
+     */
     private VBox createNodeWithLabel(Node nodeView, String labelText) {
         VBox container = new VBox(5);
         container.setAlignment(Pos.CENTER);
@@ -226,6 +284,13 @@ public class MainWindow extends Application {
         return container;
     }
 
+    /**
+     * Helper method to create a button with the specified label and style ID.
+     * 
+     * @param label The label of the button.
+     * @param group The style ID for the button.
+     * @return A {@link Button} with the specified label and style.
+     */
     private Button createButton(String label, String group){
         Button button = new Button(label);
         button.setId(group);
@@ -235,10 +300,25 @@ public class MainWindow extends Application {
         return button;
     }
 
+
+    /**
+     * Launches the game with the specified level. Loads the level's data, initializes the game state, and displays 
+     * the game board view. It also handles the undo/redo buttons' visibility and updates the view accordingly.
+     * 
+     * @param level The level to load.
+     */
     private void LoadGame(int level){
         GameLoader loader = new GameLoader("data/levels/level" + level + ".txt");
             game = Game.create(loader.x, loader.y);
             loader.SetUpGame(game);
+            game.setWin(false);
+            //lambda implmentation of onGameWin(boolean isWin)
+            game.addGameWinListener(isWin -> {
+                if (isWin) {
+                    Pane winPane = createWinMessage(level);
+                    mainLayout.setCenter(winPane);
+                }
+            });
             game.init();
 
             gameBoardView = new GameBoardView(game, undoButton, redoButton);
@@ -247,4 +327,55 @@ public class MainWindow extends Application {
             delay.setOnFinished(e -> new RandomizeGame(game, loader));
             delay.play();
     }
+
+    /**
+     * Creates a message that is displayed when the player wins a level, showing the number of turns taken
+     * and providing options to go to the next level or return to the main menu.
+     * 
+     * @param currentLevel The current level number to determine if the player can move to the next level.
+     * @return A {@link Pane} containing the win message.
+     */
+    private Pane createWinMessage(int currentLevel) {
+        VBox winPane = new VBox(20);
+        winPane.setAlignment(Pos.CENTER);
+        winPane.setPadding(new Insets(40));
+        
+        Text congrats = new Text("Congratulations!");
+        congrats.getStyleClass().add("title");
+        
+        Text winText = new Text("You Won!");
+        winText.getStyleClass().add("subtitle");
+
+        Text nOOfTurns = new Text("Turns made: " + String.valueOf(gameBoardView.getTurns()));
+        nOOfTurns.getStyleClass().add("subtitle");
+        
+        Button nextLevelButton = new Button("Next Level");
+        nextLevelButton.setId("levelButton");
+        nextLevelButton.setOnAction(e -> {
+            if (currentLevel < 4) {
+                LoadGame(currentLevel + 1);
+            } else {
+                Text message = new Text("You completed all levels!");
+                winPane.getChildren().add(message);
+                nextLevelButton.setDisable(true);
+            }
+        });
+        
+        Button menuButton = new Button("Back to Intro");
+        menuButton.setId("levelButton");
+        menuButton.setOnAction(e -> {
+            mainLayout.setCenter(intro);
+            undoButton.setVisible(false);
+            redoButton.setVisible(false);
+        });
+        
+        HBox buttonBox = new HBox(20);
+        buttonBox.setAlignment(Pos.CENTER);
+        buttonBox.getChildren().addAll(nextLevelButton, menuButton);
+        
+        winPane.getChildren().addAll(congrats, winText, nOOfTurns, buttonBox);
+        
+        return winPane;
+    }
 }
+

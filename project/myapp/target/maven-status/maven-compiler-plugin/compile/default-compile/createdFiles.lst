@@ -6,6 +6,7 @@ project/game/Command.class
 project/common/ToolEnvironment.class
 project/common/NodeType.class
 project/common/GameNode.class
+project/game/GameWinListener.class
 project/gui/GameNodeView.class
 project/gui/GameNodeView$1.class
 project/gui/GameBoardView.class

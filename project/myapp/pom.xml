@@ -97,13 +97,17 @@
                 <version>3.6.0</version>
                 <executions>
                     <execution>
-                    <id>attach-javadoc</id>
-                    <phase>package</phase>
-                    <goals>
-                        <goal>javadoc</goal>
-                    </goals>
+                        <id>attach-javadoc</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>javadoc</goal>
+                        </goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <doclint>none</doclint>
+                    <failOnError>false</failOnError>
+                </configuration>
             </plugin>
         </plugins>
     </build>
