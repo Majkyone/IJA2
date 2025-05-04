@@ -25,8 +25,10 @@ public class RandomizeGame {
         // Spusti fázu 1
         playInitialRandomization(() -> {
             // Keď skončí fáza 1, spusti fázu 2
-            playUntilNoBulbsOn();
-            saveData();
+            playUntilNoBulbsOn(() -> {
+                // Po skončení fázy 2, zavolaj saveData
+                saveData();
+            });
         });
     }
 
@@ -51,23 +53,25 @@ public class RandomizeGame {
         timeline.play();
     }
 
-    private void playUntilNoBulbsOn() {
+    private void playUntilNoBulbsOn(Runnable onFinished) {
         Timeline timeline = new Timeline();
         timeline.setCycleCount(Timeline.INDEFINITE);
-
+    
         KeyFrame keyFrame = new KeyFrame(Duration.millis(100), e -> {
             if (!game.someBulbsAreOn()) {
                 timeline.stop();
+                // Zavolaj onFinished po zastavení animácie
+                onFinished.run();
                 return;
             }
-
+    
             Position pos = loader.filledPositions.get(random.nextInt(loader.filledPositions.size()));
             int turns = random.nextInt(4);
             for (int i = 0; i < turns; i++) {
                 game.node(pos).turn();
             }
         });
-
+    
         timeline.getKeyFrames().add(keyFrame);
         timeline.play();
     }

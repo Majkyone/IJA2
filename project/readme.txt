@@ -1,4 +1,5 @@
 development startup:
 
 - get inside of myapp
-- mvn clean javafx:run
+- mvn clean package
+- mvn javafx:run

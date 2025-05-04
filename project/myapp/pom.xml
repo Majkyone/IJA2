@@ -44,6 +44,16 @@
     </dependencies>
 
     <build>
+        <resources>
+            <!-- Pridaj priečinok lib/resources -->
+            <resource>
+                <directory>lib/resources</directory>
+                <includes>
+                    <include>**/*.css</include>
+                    <include>**/*.png</include>
+                </includes>
+            </resource>
+        </resources>
         <plugins>
             <!-- Maven Compiler Plugin pre Java 21 -->
             <plugin>
