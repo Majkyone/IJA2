@@ -1,7 +1,5 @@
 package project.gui;
 
-import javax.print.attribute.standard.Sides;
-
 import javafx.animation.PauseTransition;
 import javafx.application.Application;
 import javafx.geometry.Insets;

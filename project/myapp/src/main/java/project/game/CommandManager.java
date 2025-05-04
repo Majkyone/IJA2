@@ -21,7 +21,6 @@ public class CommandManager {
             Command cmd = undoStack.pop();
             cmd.undo();
             redoStack.push(cmd);
-            System.out.println(undoStack);
         }
     }
 
@@ -30,7 +29,6 @@ public class CommandManager {
             Command cmd = redoStack.pop();
             cmd.execute();
             undoStack.push(cmd);
-            System.out.println(redoStack);
         }
     }
 
@@ -54,7 +52,6 @@ public class CommandManager {
             while (!reversedStack.isEmpty()) {
                 redoStack.push(reversedStack.pop());
             }
-            System.out.println(redoStack);
         } catch (IOException | IllegalArgumentException e) {
             e.printStackTrace();
         }

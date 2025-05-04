@@ -66,6 +66,35 @@
                     <mainClass>project.gui.MainWindow</mainClass>
                 </configuration>
             </plugin>
+
+             <!-- JavaFX Maven Plugin pre .jar -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.3.0</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>project.gui.MainWindow</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+            <!-- JavaFX Maven Plugin pre sdokumentaciu -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.6.0</version>
+                <executions>
+                    <execution>
+                    <id>attach-javadoc</id>
+                    <phase>package</phase>
+                    <goals>
+                        <goal>javadoc</goal>
+                    </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 </project>
